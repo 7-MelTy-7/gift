@@ -3,635 +3,364 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Маша ✨ 1 Месяц Вместе • От Blade Ball до Звёзд</title>
-  <meta name="description" content="Особенный космический интерактивный сайт для Маши в честь нашего первого месяца знакомства.">
-  
-  <!-- Fonts -->
+  <title>Для Маши ❄️ Новогоднее Письмо 2027</title>
+  <meta name="description" content="Особенная интерактивная 3D-открытка и новогоднее послание для Маши Свечниковой.">
+
+  <!-- Google Fonts: Editorial Serif, Refined Sans, Authentic Cursive -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- Canvas Confetti CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400;1,700&display=swap" rel="stylesheet">
+
+  <!-- CDN Libraries: Three.js for 3D volumetric snow & parallax, Canvas Confetti for holiday burst -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  
+
   <link rel="stylesheet" href="style.css">
 </head>
-<body data-mode="photo">
-  <!-- Background Canvas for Interactive Cosmic Starfield -->
-  <canvas id="space-canvas"></canvas>
+<body>
 
-  <!-- Floating Sparkles Overlay -->
-  <div class="sparkles-layer" aria-hidden="true"></div>
+  <!-- Three.js 3D Background Canvas (Volumetric Falling Snowflakes & Bokeh Lights) -->
+  <canvas id="webgl-snow"></canvas>
 
-  <!-- Navigation Bar -->
-  <header class="glass-nav">
-    <div class="nav-container">
-      <div class="logo-group">
-        <span class="logo-icon">✨</span>
-        <div class="logo-text">
-          <span class="brand">M &amp; M</span>
-          <span class="badge-month">1 Месяц</span>
-        </div>
+  <!-- Frost / Glass Vignette Overlay -->
+  <div class="window-frost" aria-hidden="true"></div>
+
+  <!-- Ambient Floating Holiday Dust -->
+  <div class="holiday-dust" aria-hidden="true"></div>
+
+  <!-- Minimalist Header -->
+  <header class="holiday-header">
+    <div class="header-inner">
+      <div class="monogram-badge">
+        <span class="monogram-text">M ❄️ M</span>
+        <span class="monogram-sub">Новый Год 2027</span>
       </div>
-
-      <!-- 2-in-1 Mode Switcher (Photo vs Art) -->
-      <div class="mode-switcher-container">
-        <button id="mode-photo-btn" class="mode-btn active" title="Настоящие фотографии из нашего чата">
-          <span class="mode-icon">📸</span>
-          <span class="mode-text">Фото-режим</span>
-        </button>
-        <button id="mode-art-btn" class="mode-btn" title="Творческая арт-галерея с иллюстрациями">
-          <span class="mode-icon">🎨</span>
-          <span class="mode-text">Арт-режим</span>
-        </button>
+      <div class="header-tag">
+        <span class="sparkle-icon">✨</span>
+        <span class="tag-label">Личное праздничное послание</span>
       </div>
-
-      <!-- Audio Atmosphere Player Button -->
-      <button id="audio-toggle" class="audio-btn" title="Включить уютную фоновую мелодию">
-        <span class="audio-icon">🎵</span>
-        <span class="audio-status">Звук: Выкл</span>
-      </button>
     </div>
   </header>
 
-  <main class="main-wrapper">
-    
-    <!-- Hero Section -->
-    <section class="hero-section" id="hero">
-      <div class="hero-badge">
-        <span class="pulse-dot"></span>
-        <span>05.08.2026 — 05.09.2026 • Наш Первый Месяц!</span>
-      </div>
+  <!-- Main Journey Container -->
+  <main class="story-wrapper">
 
-      <h1 class="hero-title">
-        Маша, этот звёздный уголок <br>
-        <span class="gradient-text">создан только для тебя ✨</span>
-      </h1>
-
-      <p class="hero-subtitle">
-        История о том, как один блок на арене <strong>Blade Ball</strong> <br class="desktop-break">
-        превратился в месяц самых тёплых, весёлых и душевных разговоров!
-      </p>
-
-      <!-- Live Counter -->
-      <div class="timer-card glass-panel">
-        <div class="timer-title">Мы знакомы и общаемся уже:</div>
-        <div class="timer-grid">
-          <div class="timer-item">
-            <span class="timer-num" id="cnt-days">31</span>
-            <span class="timer-label">Дней</span>
-          </div>
-          <div class="timer-separator">:</div>
-          <div class="timer-item">
-            <span class="timer-num" id="cnt-hours">00</span>
-            <span class="timer-label">Часов</span>
-          </div>
-          <div class="timer-separator">:</div>
-          <div class="timer-item">
-            <span class="timer-num" id="cnt-mins">00</span>
-            <span class="timer-label">Минут</span>
-          </div>
-          <div class="timer-separator">:</div>
-          <div class="timer-item">
-            <span class="timer-num" id="cnt-secs">00</span>
-            <span class="timer-label">Секунд</span>
-          </div>
+    <!-- ============================================================
+         SCENE 1: THE WINTER FROST INVITATION
+         ============================================================ -->
+    <section class="scene scene-intro" id="scene-intro">
+      <div class="intro-content">
+        <div class="season-badge">
+          <span class="flake">❄️</span>
+          <span>Канун Нового Года • Зимняя Сказка</span>
+          <span class="flake">❄️</span>
         </div>
-        <div class="timer-footnote">И с каждой секундой наше общение становится только ценнее 💫</div>
-      </div>
 
-      <!-- Quick Nav Pills -->
-      <div class="quick-nav">
-        <a href="#blade-ball" class="quick-pill">🎮 Blade Ball Арена</a>
-        <a href="#timeline" class="quick-pill">🗓️ Наша Хроника</a>
-        <a href="#physics-lab" class="quick-pill">🔭 Физика &amp; Космос</a>
-        <a href="#cozy-corner" class="quick-pill">🐾 Такса &amp; Вкусняшки</a>
-        <a href="#music-jukebox" class="quick-pill">🎵 Плейлист</a>
-        <a href="#letter-section" class="quick-pill highlight-pill">💌 Письмо для Маши</a>
-      </div>
-    </section>
+        <h1 class="intro-title">
+          Маша, это письмо <br>
+          <span class="gold-gradient">написано только для тебя</span>
+        </h1>
 
-    <!-- SECTION 1: Blade Ball Arena Interactive Mini-Game -->
-    <section class="section-container" id="blade-ball">
-      <div class="section-header">
-        <div class="section-tag">🎮 ТВОЯ КОРОННАЯ ИГРА</div>
-        <h2 class="section-title">Blade Ball: «Чуйка спасла!» 🔥</h2>
-        <p class="section-desc">
-          Наше знакомство началось именно здесь — в сумасшедшем вихре мячей и идеальных парирований!
+        <p class="intro-subtitle">
+          Когда за окном кружится декабрьский снег, Москва зажигает миллионы тёплых гирлянд, <br class="desktop-only">
+          а в воздухе пахнет хвоей, шоколадом и наступающим волшебством...
         </p>
-      </div>
 
-      <!-- Stats Highlight -->
-      <div class="stats-row">
-        <div class="stat-box glass-panel glow-purple">
-          <div class="stat-icon">👑</div>
-          <div class="stat-val">15,000+</div>
-          <div class="stat-lbl">Личный рекорд Маши по киллам</div>
-          <div class="stat-sub">Настоящая гроза серверов!</div>
-        </div>
-
-        <div class="stat-box glass-panel glow-cyan">
-          <div class="stat-icon">🛡️</div>
-          <div class="stat-val">100%</div>
-          <div class="stat-lbl">Идеальный блок и тайминг</div>
-          <div class="stat-sub">Тот самый судьбоносный клик</div>
-        </div>
-
-        <div class="stat-box glass-panel glow-gold">
-          <div class="stat-icon">🐯</div>
-          <div class="stat-val">Тигрица</div>
-          <div class="stat-lbl">Главный титул на арене</div>
-          <div class="stat-sub">«Чуйка спасла!»</div>
-        </div>
-      </div>
-
-      <!-- Playable Blade Ball Mini-Game -->
-      <div class="bb-game-card glass-panel">
-        <div class="bb-game-header">
-          <div class="bb-game-title">
-            <span class="game-pulse"></span>
-            <strong>Интерактивная Арена: Парируй неоновый шар!</strong>
+        <!-- Interactive Envelope Preview / Invitation -->
+        <div class="envelope-cue-wrap">
+          <div class="envelope-cue-card" id="scroll-to-envelope">
+            <div class="cue-icon">✉️</div>
+            <div class="cue-text">
+              <strong>Тебе пришло настоящее новогоднее письмо</strong>
+              <span>Нажми или листай вниз, чтобы открыть сургучную печать</span>
+            </div>
+            <div class="cue-arrow">↓</div>
           </div>
-          <div class="bb-game-score">
-            Отражено: <span id="bb-score">0</span> | Комбо: <span id="bb-combo">x1</span> | Рекорд: <span id="bb-best">0</span>
-          </div>
-        </div>
-
-        <!-- Canvas Game Arena -->
-        <div class="arena-viewport" id="arena-viewport">
-          <canvas id="bb-canvas"></canvas>
-          <div id="bb-floating-text" class="bb-floating-text"></div>
-          <div class="arena-instructions" id="bb-hint">
-            Нажимай кнопку <strong>BLOCK</strong> или жми <strong>Пробел</strong>, когда шар окажется в зелёной зоне щита!
-          </div>
-        </div>
-
-        <!-- Controls: Block Button with User-Provided Shield Icon -->
-        <div class="bb-controls">
-          <button id="bb-block-btn" class="bb-block-button" aria-label="Блок в Blade Ball">
-            <div class="bb-btn-glow"></div>
-            <img src="assets/block_icon.png" alt="Blade Ball Block Icon" class="bb-btn-icon">
-            <span class="bb-btn-text">BLOCK [Пробел / Клик]</span>
-          </button>
-          <button id="bb-start-btn" class="bb-btn-secondary">▶ Новая подача</button>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 2: 30 Days Chronicle (Interactive Timeline with Photo/Art Mode) -->
-    <section class="section-container" id="timeline">
-      <div class="section-header">
-        <div class="section-tag">🗓️ ХРОНИКА 30 ДНЕЙ</div>
-        <h2 class="section-title">От первого блока до душевных бесед</h2>
-        <p class="section-desc">
-          Переключай режим сверху (<strong>📸 Фото-режим</strong> / <strong>🎨 Арт-режим</strong>), чтобы увидеть историю в разных стилях!
-        </p>
-      </div>
 
-      <div class="timeline-wrapper">
+    <!-- ============================================================
+         SCENE 2: THE 3D BURGUNDY ROYAL CHRISTMAS ENVELOPE
+         ============================================================ -->
+    <section class="scene scene-envelope" id="scene-envelope">
+      
+      <div class="envelope-3d-stage" id="envelope-stage">
         
-        <!-- Milestone 1 -->
-        <div class="timeline-card glass-panel">
-          <div class="tl-date-badge">05 Августа 2026</div>
-          <div class="tl-content">
-            <h3 class="tl-title">⚡ Судьбоносная катка в Blade Ball</h3>
-            <p class="tl-text">
-              Среди сотен тысяч игроков мы зашли на один и тот же сервер. Скорость мяча запредельная, один идеальный блок — и начинается наша история! Знакомство, которое сразу принесло столько искренней радости.
-            </p>
-            <div class="visual-container">
-              <div class="photo-view">
-                <div class="bb-tribute-banner">
-                  <div class="shield-big"><img src="assets/block_icon.png" alt="Block Icon"></div>
-                  <div class="banner-info">
-                    <strong>15,000+ Киллов Маши</strong>
-                    <span>Легендарный блок арены • Старт дружбы</span>
-                  </div>
-                </div>
-              </div>
-              <div class="art-view">
-                <div class="art-illustration sword-art">
-                  <div class="art-emoji">⚔️🛡️✨</div>
-                  <div class="art-caption">Искры клинка рассекают пространство арены</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Milestone 2 -->
-        <div class="timeline-card glass-panel">
-          <div class="tl-date-badge">10 Августа 2026</div>
-          <div class="tl-content">
-            <h3 class="tl-title">🎮 Wuthering Waves &amp; Игровые миры</h3>
-            <p class="tl-text">
-              Чанли, Цзиньси, Камелия, обсуждение круток, боссов и потрясающих анимаций! Твой тонкий вкус к персонажам и атмосфере делает любые игровые темы невероятно захватывающими.
-            </p>
-            <div class="visual-container">
-              <div class="photo-view">
-                <div class="image-frame single-photo">
-                  <img src="assets/wuwa_art.jpg" alt="Wuthering Waves Art" loading="lazy">
-                  <div class="img-badge">Атмосфера Вувы &amp; Геншина 🌸</div>
-                </div>
-              </div>
-              <div class="art-view">
-                <div class="art-illustration wuwa-art">
-                  <div class="art-emoji">🌸🗡️🌌</div>
-                  <div class="art-caption">Огненные фениксы, магия резонанса и космические миры</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Milestone 3 -->
-        <div class="timeline-card glass-panel">
-          <div class="tl-date-badge">18 Августа 2026</div>
-          <div class="tl-content">
-            <h3 class="tl-title">🍕 Фирменная домашняя пепперони</h3>
-            <p class="tl-text">
-              Настоящий шедевр кулинарного искусства! Твоя домашняя пицца с аппетитными колбасками, тянущимся расплавленным сыром и хрустящей корочкой. Шеф-повар 80-го уровня!
-            </p>
-            <div class="visual-container">
-              <div class="photo-view">
-                <div class="dual-photo-grid">
-                  <div class="image-frame">
-                    <img src="assets/pizza_raw.jpg" alt="Сырая пицца на противне" loading="lazy">
-                    <div class="img-badge">Собрано с душой 👨‍🍳</div>
-                  </div>
-                  <div class="image-frame">
-                    <img src="assets/pizza_baked.jpg" alt="Запечённая золотистая пицца" loading="lazy">
-                    <div class="img-badge">Идеальная корочка! ✨</div>
-                  </div>
-                </div>
-              </div>
-              <div class="art-view">
-                <div class="art-illustration pizza-art">
-                  <div class="art-emoji">🍕🧀✨</div>
-                  <div class="art-caption">Идеальная пицца: рецепт тепла, сыра и домашнего уюта</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Milestone 4 -->
-        <div class="timeline-card glass-panel">
-          <div class="tl-date-badge">24 Августа 2026</div>
-          <div class="tl-content">
-            <h3 class="tl-title">🐾 Знакомство с Пушинкой</h3>
-            <p class="tl-text">
-              Белоснежная, пушистая королева домашнего уюта с пронзительными голубыми глазками! Главный пушистый антистресс и верный хранитель спокойствия.
-            </p>
-            <div class="visual-container">
-              <div class="photo-view">
-                <div class="image-frame cat-frame single-photo">
-                  <img src="assets/pushinka_cat.jpg" alt="Кошка Пушинка" loading="lazy">
-                  <div class="img-badge">Белоснежная Пушинка 🐱</div>
-                </div>
-              </div>
-              <div class="art-view">
-                <div class="art-illustration cat-art">
-                  <div class="art-emoji">🤍🐈‍⬛☁️</div>
-                  <div class="art-caption">Нежное белое облачко: Пушинка следит за порядком</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Milestone 5 -->
-        <div class="timeline-card glass-panel">
-          <div class="tl-date-badge">01 Сентября 2026</div>
-          <div class="tl-content">
-            <h3 class="tl-title">🚀 11 «И» Инженерный класс</h3>
-            <p class="tl-text">
-              ГБОУ Школа «Дмитровский». Впереди захватывающий учебный год! В расписании сразу три урока углубленной физики подряд с Надеждой Анатольевной, проекты, формулы и подготовка к грандиозным открытиям.
-            </p>
-            <div class="visual-container">
-              <div class="photo-view">
-                <div class="dual-photo-grid">
-                  <div class="image-frame">
-                    <img src="assets/school_11i.jpg" alt="11 И класс на линейке" loading="lazy">
-                    <div class="img-badge">11 «И» на праздничной линейке 🎓</div>
-                  </div>
-                  <div class="image-frame">
-                    <img src="assets/schedule_11i.jpg" alt="Расписание уроков 11 И" loading="lazy">
-                    <div class="img-badge">Физика x3: Мощь инженеров! ⚡</div>
-                  </div>
-                </div>
-              </div>
-              <div class="art-view">
-                <div class="art-illustration school-art">
-                  <div class="art-emoji">📐🛰️🔬</div>
-                  <div class="art-caption">Будущий инженер-исследователь: орбиты, формулы и горизонты</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Milestone 6 -->
-        <div class="timeline-card glass-panel">
-          <div class="tl-date-badge">05 Сентября 2026</div>
-          <div class="tl-content">
-            <h3 class="tl-title">✨ Ровно 1 Месяц!</h3>
-            <p class="tl-text">
-              Тысячи сообщений, шутки, музыкальные треки, обмен мыслями и ощущение, что мы на одной волне. Спасибо тебе за этот потрясающий месяц!
-            </p>
-            <div class="visual-container">
-              <div class="celebration-box">
-                <div class="cel-star">🌟</div>
-                <div class="cel-text">Впереди ещё бесконечное множество тёплых моментов и побед!</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- SECTION 3: Physics & Space Laboratory -->
-    <section class="section-container" id="physics-lab">
-      <div class="section-header">
-        <div class="section-tag">🔭 НАУКА И МЕЧТЫ</div>
-        <h2 class="section-title">Лаборатория Физики &amp; Космоса</h2>
-        <p class="section-desc">
-          Твоя страсть к физике, астрономии и ракетам — это невероятно красиво и вдохновляюще!
-        </p>
-      </div>
-
-      <!-- Physics Formula Cards with Sweet Humor -->
-      <div class="physics-grid">
-        
-        <div class="physics-card glass-panel">
-          <div class="formula-header">
-            <span class="formula-icon">🌌</span>
-            <span class="formula-name">Закон всемирного тяготения</span>
-          </div>
-          <div class="formula-math">F = G · (m₁ · m₂) / r²</div>
-          <div class="formula-desc">
-            Сила притяжения между близкими по духу людьми преодолевает любые расстояния и не зависит от гравитационных аномалий!
-          </div>
-        </div>
-
-        <div class="physics-card glass-panel">
-          <div class="formula-header">
-            <span class="formula-icon">⚡</span>
-            <span class="formula-name">Энергия искренности</span>
-          </div>
-          <div class="formula-math">E = m · c²</div>
-          <div class="formula-desc">
-            Энергия твоей улыбки и поддержки способна зажигать целые галактики и мгновенно поднимать настроение в любой день.
-          </div>
-        </div>
-
-        <div class="physics-card glass-panel">
-          <div class="formula-header">
-            <span class="formula-icon">🚀</span>
-            <span class="formula-name">Первая космическая скорость</span>
-          </div>
-          <div class="formula-math">v₁ = √(G · M / R) ≈ 7.9 км/с</div>
-          <div class="formula-desc">
-            Примерно с такой скоростью пролетают часы, когда мы начинаем увлечённо переписываться и обсуждать всё на свете!
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Interactive Gravity Sandbox -->
-      <div class="gravity-sandbox glass-panel">
-        <div class="sandbox-header">
-          <strong>Гравитационное поле притяжения:</strong>
-          <span>(Води курсором или пальцем по полю, чтобы создавать гравитационные вихри и управлять звёздами!)</span>
-        </div>
-        <canvas id="gravity-canvas" class="gravity-canvas"></canvas>
-      </div>
-    </section>
-
-    <!-- SECTION 4: Cozy Corner (Puppy, Ice Cream, Fitness Shock, Books) -->
-    <section class="section-container" id="cozy-corner">
-      <div class="section-header">
-        <div class="section-tag">🐾 УГОЛОК РАДОСТИ</div>
-        <h2 class="section-title">Такса Мечты &amp; Любимые Удовольствия</h2>
-        <p class="section-desc">
-          Всё то, что вызывает у тебя самую тёплую и искреннюю улыбку!
-        </p>
-      </div>
-
-      <div class="cozy-layout">
-        
-        <!-- Interactive Cream Dachshund Mascot -->
-        <div class="dachshund-card glass-panel">
-          <div class="dachshund-badge">🐕 Твоя заветная мечта</div>
-          <h3 class="dachshund-title">Кремовая длинношёрстная мини-такса</h3>
+        <div class="envelope-wrapper" id="envelope-card">
+          <!-- Envelope Body in Rich Wine/Burgundy Velvet -->
+          <div class="envelope-back"></div>
           
-          <div class="dachshund-stage" id="dachshund-stage">
-            <div class="dog-avatar-wrap" id="dog-avatar">
-              <svg viewBox="0 0 200 160" class="dog-svg">
-                <!-- Tail -->
-                <path id="dog-tail" d="M 30,90 Q 15,65 25,50" stroke="#e8c39e" stroke-width="10" stroke-linecap="round" fill="none"/>
-                <!-- Body -->
-                <ellipse cx="85" cy="95" rx="55" ry="28" fill="#f5deb3"/>
-                <ellipse cx="85" cy="93" rx="50" ry="24" fill="#fbeedb"/>
-                <!-- Legs -->
-                <rect x="45" y="110" width="12" height="22" rx="6" fill="#e8c39e"/>
-                <rect x="70" y="112" width="12" height="20" rx="6" fill="#dfb993"/>
-                <rect x="110" y="110" width="12" height="22" rx="6" fill="#e8c39e"/>
-                <rect x="125" y="112" width="12" height="20" rx="6" fill="#dfb993"/>
-                <!-- Head -->
-                <ellipse cx="145" cy="75" rx="28" ry="22" fill="#fbeedb"/>
-                <!-- Snout -->
-                <path d="M 160,75 Q 185,82 178,92 Q 155,90 148,82 Z" fill="#f5deb3"/>
-                <!-- Nose -->
-                <ellipse cx="178" cy="86" rx="5" ry="4" fill="#4a3728"/>
-                <!-- Long Floppy Ear -->
-                <path id="dog-ear" d="M 132,65 Q 120,95 130,115 Q 142,112 140,80 Z" fill="#dfb993"/>
-                <!-- Eye with spark -->
-                <circle cx="152" cy="73" r="4.5" fill="#3d2817"/>
-                <circle cx="154" cy="71" r="1.8" fill="#ffffff"/>
-                <!-- Collar with heart tag -->
-                <path d="M 130,92 Q 140,98 148,90" stroke="#ff5e7e" stroke-width="4" fill="none"/>
-                <circle cx="140" cy="98" r="3.5" fill="#ffd700"/>
-              </svg>
-              <div class="heart-spawner" id="heart-spawner"></div>
+          <!-- White Silk Ribbon Cross Wrap -->
+          <div class="ribbon-vertical"></div>
+          <div class="ribbon-horizontal"></div>
+          <div class="ribbon-bow">
+            <span class="bow-loop left"></span>
+            <span class="bow-center"></span>
+            <span class="bow-loop right"></span>
+          </div>
+
+          <!-- Triangular Flap -->
+          <div class="envelope-flap" id="envelope-flap">
+            <div class="flap-fold"></div>
+          </div>
+
+          <!-- Gold Leaf Foil Corners & Filigree -->
+          <div class="foil-corner top-left"></div>
+          <div class="foil-corner top-right"></div>
+          <div class="foil-corner bottom-left"></div>
+          <div class="foil-corner bottom-right"></div>
+
+          <!-- Postal Letter Stamp Details -->
+          <div class="postal-stamp-wrap">
+            <div class="vintage-stamp">
+              <span class="stamp-year">2027</span>
+              <span class="stamp-tree">🎄</span>
+              <span class="stamp-city">MOSCOW</span>
             </div>
-
-            <div class="dog-dialogue" id="dog-status">*хвостик тихонько виляет в ожидании внимания* 🐾</div>
-          </div>
-
-          <!-- Pet Interactive Buttons -->
-          <div class="dog-actions">
-            <button id="btn-pet" class="cozy-btn">🖐️ Погладить</button>
-            <button id="btn-feed" class="cozy-btn">🦴 Дать вкусняшку</button>
-            <button id="btn-bark" class="cozy-btn">🗣️ Сказать «Привет»</button>
-          </div>
-        </div>
-
-        <!-- Sweet Delights Grid -->
-        <div class="favorites-grid">
-          
-          <div class="fav-item glass-panel">
-            <div class="fav-icon">🍫🍦</div>
-            <div class="fav-text">
-              <h4>Шоколадное мороженое</h4>
-              <p>Безусловный номер один среди всех десертов Вселенной!</p>
+            <div class="postmark-circle">
+              <span>31.XII</span>
             </div>
           </div>
 
-          <div class="fav-item glass-panel">
-            <div class="fav-icon">🥜🍪</div>
-            <div class="fav-text">
-              <h4>Fitness Shock</h4>
-              <p>Любимый перекус: фисташка, арахис и полезный заряд энергии.</p>
+          <div class="envelope-recipient">
+            <span class="to-label">Куда:</span> Москва, в самые тёплые руки <br>
+            <span class="to-label">Кому:</span> Маше Свечниковой 🤍
+          </div>
+
+          <!-- Wax Seal (The Magic Click Trigger) -->
+          <div class="wax-seal-container" id="wax-seal-btn" title="Нажми, чтобы сломать сургуч и открыть письмо!">
+            <div class="wax-seal-body">
+              <div class="seal-inner-ring">
+                <span class="seal-logo">M &amp; M</span>
+                <span class="seal-year">❄️ 2027 ❄️</span>
+              </div>
             </div>
+            <div class="seal-glow"></div>
+            <div class="seal-hover-prompt">Нажми, чтобы распечатать</div>
           </div>
 
-          <div class="fav-item glass-panel">
-            <div class="fav-icon">📖✨</div>
-            <div class="fav-text">
-              <h4>Книги Анны Джейн</h4>
-              <p>«Поклонник» и захватывающие романтические сюжеты с интригой.</p>
-            </div>
-          </div>
-
-          <div class="fav-item glass-panel">
-            <div class="fav-icon">🌟🎤</div>
-            <div class="fav-text">
-              <h4>Встреча с Региной Тодоренко</h4>
-              <p>Яркий и тёплый жизненный момент, который приятно вспоминать!</p>
-            </div>
-          </div>
-
-          <div class="fav-item glass-panel">
-            <div class="fav-icon">🧥💫</div>
-            <div class="fav-text">
-              <h4>Уютные оверсайз толстовки</h4>
-              <p>Максимальный комфорт, тепло и собственный неповторимый стиль.</p>
-            </div>
-          </div>
-
-          <div class="fav-item glass-panel">
-            <div class="fav-icon">🎨🌈</div>
-            <div class="fav-text">
-              <h4>Вся палитра цветов</h4>
-              <p>От глубокого лавандового до звёздного бирюзового — мир полон красок!</p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- SECTION 5: Music Atmosphere (Jukebox) -->
-    <section class="section-container" id="music-jukebox">
-      <div class="section-header">
-        <div class="section-tag">🎵 НАШ ПЛЕЙЛИСТ</div>
-        <h2 class="section-title">Музыкальное Настроение Месяца</h2>
-        <p class="section-desc">
-          Мелодии и треки, которые создавали атмосферу нашего общения!
-        </p>
-      </div>
-
-      <div class="jukebox-card glass-panel">
-        <div class="vinyl-record-wrap">
-          <div class="vinyl-disc" id="vinyl-disc">
-            <div class="vinyl-label">M &amp; M</div>
-          </div>
-          <div class="vinyl-arm" id="vinyl-arm"></div>
-        </div>
-
-        <div class="player-info">
-          <div class="now-playing-track" id="track-title">ILLIT — Do the Dance 🎧</div>
-          <div class="visualizer-bars">
-            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-          </div>
-          
-          <div class="track-selector">
-            <button class="track-chip active" data-track="illit-dance">ILLIT — Do the Dance</button>
-            <button class="track-chip" data-track="illit-mistake">ILLIT — Iconic By Mistake</button>
-            <button class="track-chip" data-track="bts-vibe">BTS — Vibe &amp; Energy</button>
-            <button class="track-chip" data-track="buda-lines">OG Buda — Строчки о бывших</button>
-          </div>
-          
-          <div class="player-controls">
-            <button id="btn-play-synth" class="play-btn">▶ Играть космический лоу-фай</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 6: Secret Letter (The Grand Finale) -->
-    <section class="section-container letter-wrapper" id="letter-section">
-      <div class="section-header">
-        <div class="section-tag">💌 САМОЕ ГЛАВНОЕ</div>
-        <h2 class="section-title">Особенное послание в честь 1 месяца</h2>
-        <p class="section-desc">
-          Сургучная печать хранит самые искренние слова. Нажми на конверт, чтобы открыть его!
-        </p>
-      </div>
-
-      <!-- Sealed Envelope -->
-      <div class="envelope-container" id="envelope-container">
-        <div class="wax-envelope" id="wax-envelope" title="Нажми, чтобы открыть!">
-          <div class="envelope-flap"></div>
+          <!-- Envelope Pocket Front -->
           <div class="envelope-pocket"></div>
-          <div class="wax-seal" id="wax-seal">
-            <span class="seal-initials">M✨M</span>
-            <span class="seal-hint">НАЖМИ</span>
+        </div>
+
+        <div class="stage-instructions" id="open-hint">
+          ✨ Прикоснись к сургучной печати, чтобы снять шелковую ленту и прочитать послание ✨
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ============================================================
+         SCENE 3: THE UNFOLDED PHYSICAL LETTER & TACTILE CARD
+         ============================================================ -->
+    <section class="scene scene-letter hidden-letter" id="scene-letter">
+      
+      <div class="letter-scroll-track">
+        
+        <!-- The Tactile Paper Sheet -->
+        <article class="letter-parchment" id="letter-sheet">
+          
+          <!-- Ornate Holiday Border -->
+          <div class="parchment-frame"></div>
+          
+          <!-- Top Postage Header -->
+          <header class="letter-header">
+            <div class="letter-stamp-box">
+              <div class="postage-art">❄️ С Новым Годом!</div>
+              <div class="postage-date">Декабрь 2026 ➔ Январь 2027</div>
+            </div>
+            <div class="letter-title-group">
+              <span class="ornament-divider">✧ • ❄️ • ✧</span>
+              <h2 class="letter-salutation">Маша, приветик!</h2>
+              <span class="ornament-sub">Праздничное письмо для тебя</span>
+            </div>
+          </header>
+
+          <!-- Letter Body Text with Kinetic Scroll Reveal -->
+          <div class="letter-content-flow">
+            
+            <p class="story-paragraph reveal-p">
+              За окном кружится декабрьский снег, праздничная Москва зажигает миллионы тёплых огней, а я ловлю себя на мысли, как удивительно и неслучайно устроен этот мир.
+            </p>
+
+            <p class="story-paragraph reveal-p">
+              Если бы в августе среди сотен тысяч игроков мы не оказались в одной игре, <strong class="highlight-warm">если бы не твоя заявка в друзья</strong> — этот год для меня был бы совершенно другим. Но законы вселенной решили соединить наши орбиты, и это стало самым лучшим и ярким событием.
+            </p>
+
+            <!-- TRINKET 1: Interactive Celestial Orbital Map -->
+            <div class="margin-trinket orbit-trinket reveal-trinket">
+              <div class="orbit-visual">
+                <svg viewBox="0 0 240 140" class="orbit-svg">
+                  <!-- Orbital Ellipses -->
+                  <ellipse cx="120" cy="70" rx="95" ry="40" fill="none" stroke="rgba(212, 175, 55, 0.35)" stroke-dasharray="4 4" class="orbit-path-1" />
+                  <ellipse cx="120" cy="70" rx="65" ry="28" fill="none" stroke="rgba(110, 198, 255, 0.4)" stroke-dasharray="3 3" class="orbit-path-2" />
+                  <!-- Star Centers -->
+                  <circle cx="120" cy="70" r="14" fill="url(#goldStarGrad)" class="center-star" />
+                  <!-- Orbiting Nodes -->
+                  <g class="orbit-node node-misha">
+                    <circle cx="35" cy="70" r="6" fill="#6ec6ff" />
+                    <text x="35" y="92" font-size="10" fill="#a0c8e6" text-anchor="middle" font-family="Montserrat">Миша</text>
+                  </g>
+                  <g class="orbit-node node-masha">
+                    <circle cx="205" cy="70" r="7" fill="#ffd166" />
+                    <text x="205" y="92" font-size="10" fill="#ffd166" text-anchor="middle" font-family="Montserrat">Маша</text>
+                  </g>
+                  <defs>
+                    <radialGradient id="goldStarGrad" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#fff7d6" />
+                      <stop offset="60%" stop-color="#d4af37" />
+                      <stop offset="100%" stop-color="#8a6d1b" />
+                    </radialGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div class="trinket-caption">
+                <span class="caption-icon">🪐</span>
+                <span>05 Августа: Blade Ball ➔ Твоя заявка в друзья ➔ Соединение орбит</span>
+              </div>
+            </div>
+
+            <p class="story-paragraph reveal-p">
+              За эти месяцы я узнал, какой ты потрясающий, многогранный и удивительный человек. Мне невероятно нравится твой живой, острый ум и то, с каким горящим взглядом ты смотришь на физику, звёзды и бескрайний космос. Ты умеешь видеть красоту там, где другие видят лишь формулы, и это по-настоящему восхищает.
+            </p>
+
+            <p class="story-paragraph reveal-p">
+              В тебе удивительным образом сочетаются инженерная рассудительность и безграничная чуткость. Твоя доброта, забота, искренний смех и лёгкость делают любой разговор особенным, а день — светлым. Ты из тех редких людей, рядом с которыми тепло даже в самую морозную метель — словно в любимой уютной толстовке за чашкой горячего шоколада. В твоем характере есть вся палитра красок: от целеустремленности и твердости характера до нежности и трогательной любви к пушистым радостям.
+            </p>
+
+            <!-- TRINKET 2: Interactive 3D Snowglobe with Cream Dachshund -->
+            <div class="margin-trinket snowglobe-trinket reveal-trinket" id="snowglobe-card">
+              <div class="snowglobe-stage" id="snowglobe-interactive">
+                
+                <div class="globe-glass">
+                  <div class="globe-shine"></div>
+                  <!-- Swirling Snow Particles inside globe -->
+                  <div class="globe-snow-inner" id="globe-snow"></div>
+
+                  <!-- Miniature Inside the Globe -->
+                  <div class="globe-miniature">
+                    <div class="mini-tree">🎄</div>
+                    
+                    <!-- Cute Cream Dachshund Sleeping in the snow -->
+                    <div class="mini-dachshund" id="mini-dog">
+                      <svg viewBox="0 0 140 100" class="dachshund-svg">
+                        <!-- Tail -->
+                        <path id="mini-dog-tail" d="M 22,58 Q 12,42 18,32" stroke="#e6c29b" stroke-width="6" stroke-linecap="round" fill="none"/>
+                        <!-- Dachshund Long Body -->
+                        <ellipse cx="60" cy="62" rx="38" ry="18" fill="#f6dfb8"/>
+                        <ellipse cx="60" cy="60" rx="34" ry="15" fill="#fcf1df"/>
+                        <!-- Legs tucked -->
+                        <ellipse cx="36" cy="74" rx="9" ry="6" fill="#e6c29b"/>
+                        <ellipse cx="80" cy="74" rx="9" ry="6" fill="#e6c29b"/>
+                        <!-- Head sleeping -->
+                        <ellipse cx="98" cy="52" rx="18" ry="14" fill="#fcf1df"/>
+                        <path d="M 108,52 Q 124,56 120,64 Q 106,62 100,56 Z" fill="#f6dfb8"/>
+                        <ellipse cx="120" cy="60" rx="3.5" ry="3" fill="#422f21"/>
+                        <!-- Floppy Ear -->
+                        <path id="mini-dog-ear" d="M 90,44 Q 82,64 90,78 Q 98,74 96,52 Z" fill="#dfb589"/>
+                        <!-- Sleeping Eye -->
+                        <path d="M 103,50 Q 106,53 109,50" stroke="#422f21" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                        <!-- Little Red Christmas Scarf -->
+                        <path d="M 88,60 Q 94,66 102,58" stroke="#d90429" stroke-width="5" fill="none"/>
+                        <circle cx="95" cy="64" r="2.5" fill="#ffd166"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Snowglobe Wooden Base -->
+                <div class="globe-base">
+                  <div class="base-wood"></div>
+                  <div class="base-brass-plate">
+                    <span>Снежный шар мечты • 2027</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="trinket-caption">
+                <span class="caption-icon">🐾</span>
+                <span>Нажми на шар: кремовая мини-такса греется в снежном вихре и видит сладкие сны!</span>
+              </div>
+            </div>
+
+            <p class="story-paragraph reveal-p">
+              В канун Нового года принято загадывать самые заветные желания. Я от всего сердца хочу пожелать тебе, чтобы наступающий 2027 год принёс тебе бесконечное вдохновение, лёгкость во всех твоих начинаниях и уверенность в каждом шаге. Пусть любые сложные уравнения сходятся в один красивый ответ, а мечты сбываются одна за другой (и пусть та самая кремовая длинношёрстная мини-такса обязательно появится в твоих руках и станет самым преданным другом!).
+            </p>
+
+            <p class="story-paragraph reveal-p">
+              Спасибо тебе за твоё тепло, за поддержку, за наши разговоры обо всём на свете и за то, какая ты настоящая.
+            </p>
+
           </div>
-          <div class="envelope-to">Для Маши Свечниковой 🤍</div>
-        </div>
+
+          <!-- Letter Festive Closing & Handwritten Signature -->
+          <footer class="letter-footer">
+            <div class="wishes-headline reveal-p">
+              С наступающим Новым годом! <br>
+              <span class="wishes-accent">Пусть он будет полон чудес, радости и улыбок ✨</span>
+            </div>
+
+            <div class="signature-block reveal-p">
+              <span class="signature-intro">С душевным теплом,</span>
+              <span class="handwritten-name">Миша</span>
+              <span class="signature-date">Декабрь 2026 • Москва</span>
+            </div>
+          </footer>
+
+        </article>
+
       </div>
 
-      <!-- Unfolded Letter (Appears on click with confetti) -->
-      <div class="letter-paper glass-panel hidden" id="letter-paper">
-        <div class="letter-stamp">05.08 ➔ 05.09</div>
-        <div class="letter-salutation">Маша, приветик!</div>
+    </section>
 
-        <div class="letter-body">
-          <p>
-            Ровно месяц назад мы совершенно случайно встретились на арене Blade Ball. Кто бы мог подумать, что обычная катка и пара вовремя нажатых блоков подарят мне такого замечательного, умного и невероятно тёплого человека, как ты.
-          </p>
-          <p>
-            За эти 30 дней мы успели столько всего: обсуждать всё на свете, смеяться, делиться планами, восхищаться твоей фирменной домашней пиццей, радоваться твоим успехам в учёбе в 11 «И» и любоваться пушистой Пушинкой.
-          </p>
-          <p>
-            Ты потрясающая. Твоя любовь к физике, космосу и звёздам вдохновляет. Твоё упорство, доброта, чувство юмора и искренность делают каждый разговор особенным. Ты умеешь делать так, чтобы даже самый обычный день становился ярким.
-          </p>
-          <p>
-            Спасибо тебе за этот первый месяц. За каждую улыбку, за каждое сообщение и за то, какая ты есть. Пусть впереди нас ждёт ещё больше крутых побед, уютных историй и исполнения всех твоих самых заветных мечтаний (и пусть та самая кремовая такса обязательно появится в твоей жизни!).
+
+    <!-- ============================================================
+         SCENE 4: INTERACTIVE NEW YEAR SPARKLER (БЕНГАЛЬСКИЙ ОГОНЬ)
+         ============================================================ -->
+    <section class="scene scene-sparkler" id="scene-sparkler">
+      
+      <div class="sparkler-card">
+        <div class="sparkler-header">
+          <span class="sparkler-badge">🎇 НОВОГОДНИЙ РИТУАЛ</span>
+          <h3 class="sparkler-title">Зажги свой бенгальский огонь</h3>
+          <p class="sparkler-prompt">
+            Проведи курсором или пальцем по кончику бенгальского огня, чтобы зажечь праздничные искры и загадать своё самое заветное желание на 2027 год!
           </p>
         </div>
 
-        <div class="letter-celebration">
-          С нашим первым месяцем! ✨
+        <!-- Sparkler Canvas Stage -->
+        <div class="sparkler-interactive-stage">
+          <canvas id="sparkler-canvas"></canvas>
+          <div class="sparkler-hint" id="sparkler-status">
+            ✨ Проведи по кончику бенгальского огня, чтобы зажечь ✨
+          </div>
         </div>
 
-        <div class="letter-signature">
-          Миша
+        <!-- Wishes Reaction Output -->
+        <div class="wish-reveal-box" id="wish-box">
+          <div class="wish-icon">💫</div>
+          <div class="wish-message">
+            Твоё новогоднее желание отправлено прямо к звёздам! <br>
+            <strong>Оно обязательно исполнится в 2027 году! ❄️</strong>
+          </div>
+          <button id="reignite-btn" class="holiday-ghost-btn">Зажечь ещё разок ✨</button>
         </div>
 
-        <!-- Interactive Reaction Button -->
-        <div class="letter-interaction">
-          <button id="btn-send-heart" class="heart-btn">
-            <span class="heart-icon">💖</span>
-            <span>Отправить лучик тепла (<span id="heart-count">0</span>)</span>
-          </button>
-        </div>
       </div>
+
     </section>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-content">
-      <div class="footer-brand">С любовью и уважением к Маше • 1 Месяц Знакомства 🌌</div>
-      <div class="footer-copy">Blade Ball ➔ Бесконечность • 2026</div>
-    </div>
+  <!-- Festive Footer -->
+  <footer class="festive-footer">
+    <div class="footer-decor">✦ • ❄️ • ✦</div>
+    <div class="footer-note">Создано с искренней теплотой специально для Маши • Новый Год 2027</div>
   </footer>
 
   <script src="script.js"></script>
