@@ -1,43 +1,28 @@
 /* ==========================================================================
-   MASHA'S NEW YEAR 2027 MAGICAL LETTER • STYLESHEET
-   Awwwards Caliber: Rich Burgundy Velvet, Gold Leaf Foil, Tactile Parchment
+   MASHA'S NEW YEAR 2027 FAIRYTALE BOOK • STYLESHEET
+   Borderless Fluid Design, Golden Accents, Serene Atmospheric Snow
    ========================================================================== */
 
 :root {
-  /* Color Palette: Deep Winter Night & Royal Christmas Burgundy */
-  --bg-deep: #060813;
-  --bg-night: #0b0f22;
-  --velvet-wine: #5a0f1d;
-  --velvet-wine-dark: #3a0912;
-  --velvet-wine-light: #7a1627;
+  /* Color Palette: Deep Winter Night & Royal Christmas Velvet */
+  --bg-dark: #050713;
+  --bg-mid: #0a0e24;
   --gold-foil: #d4af37;
   --gold-glow: #ffd966;
   --gold-bright: #fff2b2;
-  --silk-white: #f8f9fa;
-  --wax-red: #8f1d2c;
-  --wax-dark: #5e0d17;
+  --soft-rose: #ffccd5;
   --ice-cyan: #70d6ff;
+  --white-soft: #f8f9fa;
 
-  /* Paper Palette */
-  --paper-bg: #fcf9f2;
-  --paper-border: #e8decb;
-  --text-ink: #2b2424;
-  --text-muted: #5e5252;
-  --text-subtle: #8a7c7c;
-
-  /* Fonts */
+  /* Typography */
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-editorial: 'Cormorant Garamond', Garamond, serif;
   --font-sans: 'Montserrat', -apple-system, sans-serif;
   --font-cursive: 'Caveat', cursive;
 
-  /* Radius & Shadows */
-  --radius-sm: 8px;
-  --radius-md: 18px;
-  --radius-lg: 28px;
-  
-  --shadow-envelope: 0 30px 80px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(90, 15, 29, 0.4);
-  --shadow-paper: 0 25px 70px -10px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(212, 175, 55, 0.08);
+  /* Soft Light Shadows (No boxy borders) */
+  --glow-soft: 0 0 35px rgba(212, 175, 55, 0.15);
+  --glow-accent: 0 0 50px rgba(255, 217, 102, 0.25);
 }
 
 /* Reset */
@@ -50,25 +35,25 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  background-color: var(--bg-deep);
+  background-color: var(--bg-dark);
 }
 
 body {
   font-family: var(--font-sans);
-  background: var(--bg-deep);
-  color: var(--silk-white);
-  line-height: 1.7;
+  background: var(--bg-dark);
+  background: radial-gradient(circle at 50% 15%, #0e1432 0%, #070919 60%, #03040c 100%);
+  color: var(--white-soft);
+  line-height: 1.8;
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ==========================================================================
-   BACKGROUND & ATMOSPHERE (THREE.JS SNOW & FROST VIGNETTE)
+   BACKGROUND 3D CANVAS & ATMOSPHERE
    ========================================================================== */
-#webgl-snow {
+#fairytale-snow {
   position: fixed;
   top: 0;
   left: 0;
@@ -78,60 +63,55 @@ body {
   pointer-events: none;
 }
 
-.window-frost {
+.ambient-frost {
   position: fixed;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 50%, rgba(6, 8, 19, 0) 55%, rgba(10, 15, 34, 0.6) 80%, rgba(5, 7, 18, 0.95) 100%);
-  box-shadow: inset 0 0 100px rgba(112, 214, 255, 0.08);
+  background: radial-gradient(circle at 50% 50%, rgba(5, 7, 19, 0) 60%, rgba(7, 10, 26, 0.65) 85%, rgba(3, 4, 12, 0.95) 100%);
+  box-shadow: inset 0 0 120px rgba(112, 214, 255, 0.05);
 }
 
-.holiday-dust {
+.golden-stardust {
   position: fixed;
   inset: 0;
   z-index: 2;
   pointer-events: none;
   background-image: 
-    radial-gradient(1px 1px at 15% 25%, rgba(255, 217, 102, 0.6), transparent),
-    radial-gradient(1.5px 1.5px at 75% 15%, rgba(255, 255, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 45% 75%, rgba(112, 214, 255, 0.5), transparent),
-    radial-gradient(1.5px 1.5px at 85% 85%, rgba(255, 217, 102, 0.7), transparent);
-  background-size: 320px 320px;
-  opacity: 0.4;
+    radial-gradient(1.2px 1.2px at 20% 30%, rgba(255, 217, 102, 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 80% 20%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1.2px 1.2px at 40% 80%, rgba(112, 214, 255, 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 85% 75%, rgba(255, 217, 102, 0.6), transparent);
+  background-size: 280px 280px;
+  opacity: 0.35;
 }
 
 /* ==========================================================================
-   MINIMALIST HEADER
+   MINIMALIST NAVIGATION
    ========================================================================== */
-.holiday-header {
+.fairytale-nav {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 50;
-  padding: 1.2rem 2rem;
-  background: linear-gradient(to bottom, rgba(6, 8, 19, 0.85) 0%, rgba(6, 8, 19, 0) 100%);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.header-inner {
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 1.4rem 2.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: linear-gradient(to bottom, rgba(5, 7, 19, 0.85) 0%, rgba(5, 7, 19, 0) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-.monogram-badge {
+.nav-brand {
   display: flex;
   flex-direction: column;
 }
 
-.monogram-text {
+.nav-monogram {
   font-family: var(--font-serif);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 1px;
   background: linear-gradient(135deg, #ffffff 0%, var(--gold-glow) 100%);
@@ -139,671 +119,399 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-.monogram-sub {
-  font-size: 0.7rem;
+.nav-year {
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   color: var(--gold-foil);
   font-weight: 600;
 }
 
-.header-tag {
+.nav-chapters-indicator {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  padding: 0.35rem 0.9rem;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.4rem 1.1rem;
   border-radius: 9999px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
 }
 
-.sparkle-icon {
-  animation: pulseRotate 4s infinite linear;
+.active-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--gold-glow);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--gold-glow);
+  animation: pulseDot 2s infinite;
 }
 
 /* ==========================================================================
-   STORY WRAPPER & SCENES
+   BOOK CONTAINER & CHAPTERS (BORDERLESS FLOW)
    ========================================================================== */
-.story-wrapper {
+.book-container {
   position: relative;
   z-index: 10;
-  max-width: 1100px;
+  max-width: 920px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 }
 
-.scene {
+.book-chapter {
   position: relative;
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 6rem 0;
+  padding: 6.5rem 0;
+  /* NO borders, completely organic blend */
+}
+
+.chapter-inner {
+  width: 100%;
+  max-width: 780px;
+  text-align: center;
 }
 
 /* ==========================================================================
-   SCENE 1: INTRO INVITATION
+   ПРОЛОГ: ВСТУПЛЕНИЕ
    ========================================================================== */
-.scene-intro {
-  text-align: center;
-  min-height: 90vh;
-  padding-top: 8rem;
+.prologue-chapter {
+  min-height: 95vh;
+  padding-top: 10rem;
 }
 
-.intro-content {
-  max-width: 780px;
-  margin: 0 auto;
-}
-
-.season-badge {
+.fairytale-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  background: rgba(90, 15, 29, 0.4);
-  border: 1px solid rgba(212, 175, 55, 0.4);
   color: var(--gold-bright);
-  padding: 0.4rem 1.2rem;
-  border-radius: 9999px;
   font-size: 0.88rem;
   font-weight: 600;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   margin-bottom: 2rem;
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
-.intro-title {
+.badge-star {
+  color: var(--gold-glow);
+}
+
+.fairytale-title {
   font-family: var(--font-serif);
-  font-size: 3.6rem;
+  font-size: 4.2rem;
   font-weight: 700;
-  line-height: 1.18;
-  margin-bottom: 1.5rem;
+  line-height: 1.15;
+  margin-bottom: 1.8rem;
   color: #ffffff;
 }
 
-.gold-gradient {
-  background: linear-gradient(135deg, #fff7d6 0%, var(--gold-glow) 50%, var(--gold-foil) 100%);
+.gold-shimmer {
+  background: linear-gradient(135deg, #ffffff 0%, var(--gold-bright) 35%, var(--gold-foil) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  text-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
 }
 
-.intro-subtitle {
+.fairytale-subtitle {
   font-family: var(--font-editorial);
-  font-size: 1.45rem;
+  font-size: 1.55rem;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.6;
-  margin-bottom: 3.5rem;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.65;
+  margin-bottom: 4rem;
 }
 
-.envelope-cue-wrap {
-  display: flex;
-  justify-content: center;
-}
-
-.envelope-cue-card {
-  display: flex;
+.book-scroll-prompt {
+  display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1.2rem;
-  background: rgba(20, 24, 45, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  padding: 1rem 1.8rem;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  gap: 0.8rem;
+  color: var(--gold-glow);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
-.envelope-cue-card:hover {
-  transform: translateY(-4px) scale(1.02);
-  border-color: var(--gold-glow);
-  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.25);
+.mouse-icon {
+  width: 24px;
+  height: 38px;
+  border: 2px solid var(--gold-glow);
+  border-radius: 14px;
+  position: relative;
 }
 
-.cue-icon {
-  font-size: 2rem;
+.mouse-wheel {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 7px;
+  background: var(--gold-glow);
+  border-radius: 2px;
+  animation: scrollDown 2s infinite;
 }
 
-.cue-text {
+/* ==========================================================================
+   CHAPTER HEADINGS & STORY PROSE
+   ========================================================================== */
+.chapter-number {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--gold-foil);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.chapter-heading {
+  font-family: var(--font-serif);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.25;
+  margin-bottom: 2.5rem;
+}
+
+.story-prose {
+  font-family: var(--font-editorial);
+  font-size: 1.48rem;
+  line-height: 2.05;
+  color: #f0f3fa;
   text-align: left;
   display: flex;
   flex-direction: column;
+  gap: 1.8rem;
 }
 
-.cue-text strong {
-  font-size: 1rem;
-  color: #ffffff;
+.story-prose p {
+  text-indent: 2rem;
 }
 
-.cue-text span {
-  font-size: 0.82rem;
-  color: var(--gold-glow);
-}
-
-.cue-arrow {
-  font-size: 1.4rem;
-  color: var(--gold-glow);
-  animation: bounceDown 1.8s infinite;
-}
-
-/* ==========================================================================
-   SCENE 2: 3D BURGUNDY CHRISTMAS ENVELOPE
-   ========================================================================== */
-.scene-envelope {
-  min-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.envelope-3d-stage {
-  perspective: 1200px;
-  width: 100%;
-  max-width: 580px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.envelope-wrapper {
-  position: relative;
-  width: 100%;
-  height: 380px;
-  background: radial-gradient(circle at 50% 35%, var(--velvet-wine-light) 0%, var(--velvet-wine) 60%, var(--velvet-wine-dark) 100%);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-envelope);
-  border: 2px solid rgba(212, 175, 55, 0.4);
-  transform-style: preserve-3d;
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
-  overflow: hidden;
-  user-select: none;
-}
-
-.envelope-wrapper:hover {
-  border-color: rgba(255, 217, 102, 0.7);
-  box-shadow: 0 35px 90px -10px rgba(0, 0, 0, 0.9), 0 0 50px rgba(212, 175, 55, 0.35);
-}
-
-/* Silk White Ribbons */
-.ribbon-vertical {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 38px;
-  height: 100%;
-  transform: translateX(-50%);
-  background: linear-gradient(90deg, #e9ecef 0%, #ffffff 50%, #dee2e6 100%);
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  z-index: 3;
-}
-
-.ribbon-horizontal {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 38px;
-  transform: translateY(-50%);
-  background: linear-gradient(180deg, #e9ecef 0%, #ffffff 50%, #dee2e6 100%);
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  z-index: 3;
-}
-
-/* Ribbon Bow in the center */
-.ribbon-bow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90px;
-  height: 90px;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.bow-loop {
-  position: absolute;
-  top: 25px;
-  width: 36px;
-  height: 28px;
-  border: 4px solid #ffffff;
-  border-radius: 50%;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.3);
-  background: #f8f9fa;
-}
-
-.bow-loop.left {
-  left: 5px;
-  transform: rotate(-35deg);
-}
-
-.bow-loop.right {
-  right: 5px;
-  transform: rotate(35deg);
-}
-
-.bow-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 24px;
-  height: 24px;
-  background: #ffffff;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-}
-
-/* Gold Foil Filigree Corners */
-.foil-corner {
-  position: absolute;
-  width: 45px;
-  height: 45px;
-  border: 2px solid var(--gold-foil);
-  z-index: 4;
-  pointer-events: none;
-}
-
-.foil-corner.top-left { top: 12px; left: 12px; border-right: none; border-bottom: none; }
-.foil-corner.top-right { top: 12px; right: 12px; border-left: none; border-bottom: none; }
-.foil-corner.bottom-left { bottom: 12px; left: 12px; border-right: none; border-top: none; }
-.foil-corner.bottom-right { bottom: 12px; right: 12px; border-left: none; border-top: none; }
-
-/* Postal Stamp */
-.postal-stamp-wrap {
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  z-index: 4;
-}
-
-.vintage-stamp {
-  width: 58px;
-  height: 68px;
-  border: 2px dashed var(--gold-foil);
-  background: rgba(255, 255, 255, 0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-}
-
-.stamp-year {
-  font-family: var(--font-serif);
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: var(--gold-glow);
-}
-
-.stamp-tree {
-  font-size: 1.4rem;
-  margin: 2px 0;
-}
-
-.stamp-city {
-  font-size: 0.55rem;
-  letter-spacing: 1px;
-  color: #ffffff;
-  font-weight: 600;
-}
-
-.postmark-circle {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 217, 102, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--gold-glow);
-  transform: rotate(-15deg);
-}
-
-/* Recipient Label */
-.envelope-recipient {
-  position: absolute;
-  bottom: 28px;
-  left: 28px;
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
-  color: rgba(255, 255, 255, 0.95);
-  line-height: 1.5;
-  z-index: 4;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.6);
-}
-
-.to-label {
-  font-size: 0.78rem;
-  color: var(--gold-glow);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Wax Seal Button */
-.wax-seal-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 105px;
-  height: 105px;
-  z-index: 10;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.wax-seal-body {
-  width: 92px;
-  height: 92px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #b22234 0%, var(--wax-red) 55%, var(--wax-dark) 100%);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 2px 6px rgba(255, 255, 255, 0.4);
-  border: 3px solid #6b101c;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.wax-seal-container:hover .wax-seal-body {
-  transform: scale(1.08);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 217, 102, 0.4);
-}
-
-.seal-inner-ring {
-  width: 74px;
-  height: 74px;
-  border-radius: 50%;
-  border: 1.5px dashed var(--gold-foil);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.seal-logo {
-  font-family: var(--font-serif);
-  font-weight: 800;
-  font-size: 1.15rem;
+.text-glow {
   color: var(--gold-bright);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-}
-
-.seal-year {
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.5px;
-}
-
-.seal-glow {
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
-  animation: pulseGlow 2.5s infinite;
-  pointer-events: none;
-}
-
-.seal-hover-prompt {
-  position: absolute;
-  bottom: -28px;
-  white-space: nowrap;
-  font-size: 0.75rem;
   font-weight: 600;
-  color: var(--gold-glow);
-  opacity: 0;
-  transition: opacity 0.3s;
+  text-shadow: 0 0 10px rgba(255, 217, 102, 0.4);
 }
 
-.wax-seal-container:hover .seal-hover-prompt {
-  opacity: 1;
-}
-
-.stage-instructions {
-  margin-top: 1.8rem;
+/* Quote Interlude */
+.quote-interlude {
+  margin: 2.5rem 0;
   text-align: center;
-  font-size: 0.92rem;
-  color: var(--gold-glow);
-  font-style: italic;
+  position: relative;
+}
+
+.quote-mark {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  color: var(--gold-foil);
+  opacity: 0.6;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.quote-body {
   font-family: var(--font-editorial);
+  font-size: 2rem;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--gold-bright);
+  margin: 0 0.5rem;
+  text-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
+}
+
+.quote-author {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 0.6rem;
+  letter-spacing: 1px;
+}
+
+/* Callout Statement */
+.callout-statement {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  padding: 1.8rem 2rem;
+  background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 85%);
+}
+
+.callout-icon {
+  font-size: 2.8rem;
+}
+
+.callout-text {
+  font-family: var(--font-editorial);
+  font-size: 1.8rem;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--gold-bright);
+  line-height: 1.4;
 }
 
 /* ==========================================================================
-   SCENE 3: THE UNFOLDED PHYSICAL LETTER & TACTILE CARD
+   INTERACTIVE WIDGETS: CONSTELLATIONS & GLOBE (BORDERLESS)
    ========================================================================== */
-.scene-letter {
-  min-height: 100vh;
-  padding: 4rem 0 6rem;
-  transition: opacity 0.8s ease;
-}
-
-.scene-letter.hidden-letter {
-  display: none;
-  opacity: 0;
-}
-
-.letter-scroll-track {
+.fairytale-interactive-card {
+  margin: 2.5rem auto;
+  text-align: center;
   width: 100%;
-  max-width: 840px;
+}
+
+.constellation-viewer {
+  width: 100%;
+  max-width: 440px;
   margin: 0 auto;
 }
 
-.letter-parchment {
-  position: relative;
-  background: var(--paper-bg);
-  color: var(--text-ink);
-  padding: 4.5rem 3.8rem;
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-paper);
-  border: 1px solid var(--paper-border);
-  animation: letterUnfurl 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.constellation-svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
 }
 
-/* Ornate Deckle Frame */
-.parchment-frame {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  pointer-events: none;
+.star-pulse {
+  animation: pulseGlow 2.5s infinite alternate;
 }
 
-.parchment-frame::after {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  right: 3px;
-  bottom: 3px;
-  border: 1px dashed rgba(212, 175, 55, 0.2);
+.interactive-caption {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--gold-glow);
+  margin-top: 1rem;
+  font-style: italic;
 }
 
-/* Letter Header */
-.letter-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  position: relative;
-  z-index: 2;
-}
-
-.letter-stamp-box {
+/* Cat Pushinka Interlude */
+.fairytale-cat-interlude {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-  padding-bottom: 0.8rem;
-  margin-bottom: 1.8rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-subtle);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  gap: 2rem;
+  margin: 2.5rem 0;
+  padding: 1.8rem 0;
+  border-top: 1px dashed rgba(212, 175, 55, 0.25);
+  border-bottom: 1px dashed rgba(212, 175, 55, 0.25);
 }
 
-.ornament-divider {
-  display: block;
-  font-size: 0.9rem;
+.cat-halo {
+  font-size: 3.5rem;
+  line-height: 1;
+  animation: floatGentle 4s ease-in-out infinite;
+}
+
+.cat-text-block {
+  text-align: left;
+}
+
+.cat-shout {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+  margin-bottom: 0.4rem;
+}
+
+.cat-text-block p {
+  text-indent: 0;
+  font-size: 1.3rem;
+  line-height: 1.7;
+}
+
+/* Highlight Memory Moment (Chapter IV) */
+.highlight-memory-moment {
+  margin: 2.8rem 0;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  background: radial-gradient(circle at 50% 50%, rgba(90, 15, 29, 0.35) 0%, transparent 80%);
+  position: relative;
+}
+
+.memory-title {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   color: var(--gold-foil);
   margin-bottom: 0.5rem;
 }
 
-.letter-salutation {
+.memory-text {
   font-family: var(--font-serif);
-  font-size: 2.8rem;
+  font-size: 2.6rem;
   font-weight: 700;
-  color: #1a1414;
-  margin-bottom: 0.25rem;
+  color: #ffffff;
+  text-shadow: 0 0 35px rgba(255, 217, 102, 0.5);
+  margin-bottom: 0.8rem;
 }
 
-.ornament-sub {
-  font-family: var(--font-editorial);
-  font-size: 1.25rem;
-  font-style: italic;
-  color: var(--text-muted);
-}
-
-/* Letter Body Content Flow */
-.letter-content-flow {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 1.8rem;
+.memory-sub {
   font-family: var(--font-editorial);
   font-size: 1.35rem;
-  line-height: 1.95;
-  color: #2b2323;
-}
-
-.story-paragraph {
-  text-indent: 1.8rem;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.highlight-warm {
-  color: #8f1d2c;
-  font-weight: 700;
-  background: rgba(212, 175, 55, 0.12);
-  padding: 0.1rem 0.4rem;
-  border-radius: 4px;
+  font-style: italic;
+  color: var(--soft-rose);
+  max-width: 580px;
+  margin: 0 auto;
 }
 
 /* ==========================================================================
-   MARGIN TRINKETS (ORBITAL MAP & SNOWGLOBE)
+   CHAPTER V: THE CREAM DACHSHUND SNOWGLOBE
    ========================================================================== */
-.margin-trinket {
-  background: #f5eedf;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: var(--radius-md);
-  padding: 1.6rem;
-  margin: 1.5rem 0;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.03), 0 8px 24px rgba(0,0,0,0.06);
-}
-
-/* Orbital Astrolabe Visual */
-.orbit-trinket {
-  text-align: center;
-  background: radial-gradient(circle at 50% 50%, #202742 0%, #111526 100%);
-  border-color: rgba(212, 175, 55, 0.5);
-}
-
-.orbit-svg {
-  width: 100%;
-  max-width: 320px;
-  height: auto;
-  margin: 0 auto;
-  display: block;
-}
-
-.orbit-path-1 {
-  animation: rotateSlow 20s linear infinite;
-  transform-origin: 120px 70px;
-}
-
-.orbit-path-2 {
-  animation: rotateSlowReverse 14s linear infinite;
-  transform-origin: 120px 70px;
-}
-
-.orbit-trinket .trinket-caption {
-  color: #e3d3ba;
-}
-
-/* 3D Glass Snowglobe with Cream Dachshund */
-.snowglobe-trinket {
+.fairytale-globe-stage {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  background: linear-gradient(135deg, #f7f0e4 0%, #ebe0cf 100%);
+  margin: 3rem 0;
 }
 
-.snowglobe-stage {
+.globe-glass-orb {
   position: relative;
-  width: 220px;
-  height: 250px;
-  cursor: pointer;
-  user-select: none;
-  margin: 0 auto;
-}
-
-.globe-glass {
-  position: relative;
-  width: 190px;
-  height: 190px;
-  margin: 0 auto;
+  width: 210px;
+  height: 210px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 35%, rgba(112, 214, 255, 0.15) 70%, rgba(90, 150, 200, 0.4) 100%);
-  box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.6), 0 10px 30px rgba(0, 0, 0, 0.2);
-  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  background: radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.2) 35%, rgba(112, 214, 255, 0.12) 70%, rgba(60, 120, 180, 0.35) 100%);
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.6), 0 15px 45px rgba(0, 0, 0, 0.4);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.globe-glass:hover {
-  transform: scale(1.04) rotate(-2deg);
+.globe-glass-orb:hover {
+  transform: scale(1.06) rotate(-2deg);
 }
 
-.globe-shine {
+.orb-highlight {
   position: absolute;
-  top: 15px;
-  left: 25px;
-  width: 45px;
-  height: 25px;
+  top: 18px;
+  left: 30px;
+  width: 50px;
+  height: 26px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   transform: rotate(-35deg);
   filter: blur(2px);
   pointer-events: none;
 }
 
-.globe-snow-inner {
+.orb-snow-particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.globe-miniature {
+.orb-content {
   position: absolute;
-  bottom: 12px;
+  bottom: 15px;
   left: 0;
   width: 100%;
   display: flex;
@@ -811,62 +519,57 @@ body {
   justify-content: center;
 }
 
-.mini-tree {
-  font-size: 3rem;
+.orb-tree {
+  font-size: 3.2rem;
   margin-right: -10px;
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
 }
 
-.mini-dachshund {
-  width: 120px;
-  height: 80px;
+.orb-dog {
+  width: 125px;
+  height: 85px;
   position: relative;
   z-index: 2;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
 }
 
-.dachshund-svg {
+.dog-svg-art {
   width: 100%;
   height: 100%;
 }
 
-#mini-dog-tail {
+#orb-dog-tail {
   transform-origin: 22px 58px;
-  animation: wagMini 1.8s ease-in-out infinite alternate;
+  animation: tailMini 1.8s ease-in-out infinite alternate;
 }
 
-.globe-base {
+.orb-stand {
   position: relative;
-  width: 150px;
-  height: 48px;
-  margin: -10px auto 0;
+  width: 160px;
+  height: 50px;
+  margin: -12px auto 0;
   z-index: 3;
 }
 
-.base-wood {
+.stand-wood {
   width: 100%;
-  height: 32px;
-  background: linear-gradient(180deg, #5a3825 0%, #3d2416 100%);
-  border-radius: 6px 6px 12px 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-  border: 1px solid #7c4f33;
+  height: 35px;
+  background: linear-gradient(180deg, #583722 0%, #3a2214 100%);
+  border-radius: 6px 6px 14px 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  border: 1px solid #754b2f;
 }
 
-.base-brass-plate {
+.stand-plaque {
   position: absolute;
-  bottom: 18px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(90deg, #c99e32 0%, #ffd966 50%, #c99e32 100%);
-  padding: 2px 10px;
-  border-radius: 3px;
+  padding: 3px 12px;
+  border-radius: 4px;
   border: 1px solid #8f6c1e;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
-
-.base-brass-plate span {
-  font-family: var(--font-sans);
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   font-weight: 800;
   color: #3b240e;
   text-transform: uppercase;
@@ -874,292 +577,301 @@ body {
   white-space: nowrap;
 }
 
-.trinket-caption {
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  color: var(--text-muted);
+.globe-tap-hint {
   margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  line-height: 1.4;
+  font-size: 0.85rem;
+  color: var(--gold-glow);
+  font-style: italic;
 }
 
-.caption-icon {
-  font-size: 1.1rem;
+/* ==========================================================================
+   ЭПИЛОГ: ПИСЬМО ОТ МИШИ
+   ========================================================================== */
+.epilogue-chapter {
+  padding-top: 5rem;
+  min-height: 100vh;
 }
 
-/* Letter Footer & Signature */
-.letter-footer {
-  margin-top: 3.5rem;
-  padding-top: 2.5rem;
-  border-top: 1px dashed rgba(212, 175, 55, 0.4);
+.letter-story-parchment {
   position: relative;
-  z-index: 2;
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto 5rem;
+  padding: 4.5rem 3.5rem;
+  background: radial-gradient(circle at 50% 30%, rgba(255, 252, 245, 0.98) 0%, rgba(248, 242, 230, 0.96) 100%);
+  color: #2b2323;
+  border-radius: 8px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 50px rgba(212, 175, 55, 0.15);
+  text-align: left;
 }
 
-.wishes-headline {
+.parchment-gold-top {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--gold-foil);
+  margin-bottom: 1.5rem;
+}
+
+.letter-greeting {
   font-family: var(--font-serif);
-  font-size: 1.95rem;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #1a1414;
+  margin-bottom: 2rem;
+}
+
+.letter-prose-flow {
+  font-family: var(--font-editorial);
+  font-size: 1.38rem;
+  line-height: 1.95;
+  color: #312929;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.letter-prose-flow p {
+  text-indent: 2rem;
+}
+
+.letter-congratulation {
+  margin-top: 2.8rem;
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
   font-weight: 700;
   line-height: 1.35;
   color: #1a1414;
-  margin-bottom: 1.8rem;
 }
 
-.wishes-accent {
+.gold-gradient-text {
   color: #8f1d2c;
   display: inline-block;
   margin-top: 0.3rem;
 }
 
-.signature-block {
+.letter-sign {
+  margin-top: 2.2rem;
   display: flex;
   flex-direction: column;
 }
 
-.signature-intro {
+.sign-prefix {
   font-family: var(--font-editorial);
   font-size: 1.25rem;
   font-style: italic;
-  color: var(--text-muted);
+  color: #6c584c;
 }
 
-.handwritten-name {
+.sign-handwritten {
   font-family: var(--font-cursive);
-  font-size: 4rem;
+  font-size: 4.2rem;
   font-weight: 700;
   color: #1a1414;
-  line-height: 1.1;
-  margin: 0.2rem 0;
+  line-height: 1;
+  margin: 0.3rem 0;
   transform: rotate(-3deg);
   display: inline-block;
 }
 
-.signature-date {
+.sign-footer-date {
   font-family: var(--font-sans);
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text-subtle);
+  color: #8c786c;
   letter-spacing: 1px;
 }
 
 /* ==========================================================================
-   SCENE 4: INTERACTIVE SPARKLER (БЕНГАЛЬСКИЙ ОГОНЬ)
+   ИНТЕРАКТИВНЫЙ БЕНГАЛЬСКИЙ ОГОНЬ (ЧИРКАНЬЕ)
    ========================================================================== */
-.scene-sparkler {
-  min-height: 90vh;
-  padding: 5rem 0 7rem;
+.sparkler-fairytale-ritual {
+  width: 100%;
+  max-width: 740px;
+  margin: 3rem auto 0;
   text-align: center;
 }
 
-.sparkler-card {
-  width: 100%;
-  max-width: 720px;
-  background: rgba(18, 22, 42, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: var(--radius-lg);
-  padding: 3rem 2.5rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 175, 55, 0.15);
-}
-
-.sparkler-badge {
+.ritual-badge {
   display: inline-block;
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 2px;
   color: var(--gold-bright);
   background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.35);
   padding: 0.35rem 1rem;
   border-radius: 9999px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 
-.sparkler-title {
+.ritual-title {
   font-family: var(--font-serif);
   font-size: 2.4rem;
   font-weight: 700;
   color: #ffffff;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
 }
 
-.sparkler-prompt {
+.ritual-instruction {
   font-size: 1.05rem;
-  color: rgba(255, 255, 255, 0.8);
-  max-width: 540px;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 580px;
   margin: 0 auto 2rem;
-  line-height: 1.6;
 }
 
-.sparkler-interactive-stage {
+.sparkler-canvas-holder {
   position: relative;
   width: 100%;
-  height: 280px;
-  background: radial-gradient(circle at 50% 40%, rgba(35, 25, 55, 0.6) 0%, rgba(10, 12, 25, 0.95) 100%);
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  height: 290px;
+  background: radial-gradient(circle at 50% 35%, rgba(30, 20, 50, 0.5) 0%, rgba(5, 7, 19, 0.95) 100%);
+  border-radius: 18px;
   overflow: hidden;
-  cursor: pointer;
-  user-select: none;
+  cursor: crosshair;
 }
 
-#sparkler-canvas {
+#fairytale-sparkler-canvas {
   width: 100%;
   height: 100%;
   display: block;
 }
 
-.sparkler-hint {
+.sparkler-prompt-tip {
   position: absolute;
-  bottom: 15px;
-  left: 0;
-  width: 100%;
-  font-size: 0.88rem;
+  top: 35%;
+  left: calc(50% + 28px);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--gold-glow);
-  font-weight: 600;
   pointer-events: none;
+  animation: pulseTip 2s infinite;
   transition: opacity 0.3s ease;
 }
 
-.wish-reveal-box {
-  margin-top: 2rem;
+.wish-message-card {
+  margin-top: 2.5rem;
   display: none;
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  padding: 1.5rem;
-  border-radius: var(--radius-md);
+  padding: 2rem;
+  background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 80%);
 }
 
-.wish-reveal-box.visible {
+.wish-message-card.visible {
   display: block;
   opacity: 1;
   transform: translateY(0);
 }
 
-.wish-icon {
-  font-size: 2.2rem;
-  margin-bottom: 0.4rem;
+.wish-star-burst {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  animation: pulseDot 2s infinite;
 }
 
-.wish-message {
+.wish-text-main {
   font-family: var(--font-editorial);
-  font-size: 1.45rem;
+  font-size: 1.6rem;
   color: #ffffff;
   line-height: 1.5;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
-.wish-message strong {
+.wish-text-main strong {
   color: var(--gold-glow);
 }
 
-.holiday-ghost-btn {
+.fairytale-btn {
   background: transparent;
   border: 1px solid var(--gold-foil);
   color: var(--gold-bright);
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 700;
-  padding: 0.6rem 1.4rem;
+  padding: 0.7rem 1.6rem;
   border-radius: 9999px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.holiday-ghost-btn:hover {
+.fairytale-btn:hover {
   background: rgba(212, 175, 55, 0.25);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
 }
 
 /* ==========================================================================
-   FESTIVE FOOTER
+   SEAMLESS FOOTER
    ========================================================================== */
-.festive-footer {
+.fairytale-footer {
   text-align: center;
   padding: 4rem 1.5rem 5rem;
   position: relative;
   z-index: 10;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.footer-decor {
+.footer-constellation {
   font-size: 1rem;
   color: var(--gold-foil);
   margin-bottom: 0.6rem;
 }
 
-.footer-note {
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.6);
+.footer-copyright {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* ==========================================================================
    KEYFRAME ANIMATIONS
    ========================================================================== */
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+@keyframes scrollDown {
+  0% { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, 12px); opacity: 0; }
+}
+
 @keyframes pulseGlow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.12); }
+  0% { opacity: 0.5; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.3); }
 }
 
-@keyframes pulseRotate {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.2); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-
-@keyframes bounceDown {
+@keyframes floatGentle {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
+  50% { transform: translateY(-8px); }
 }
 
-@keyframes letterUnfurl {
-  0% { opacity: 0; transform: translateY(50px) scale(0.92); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes rotateSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes rotateSlowReverse {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
-}
-
-@keyframes wagMini {
+@keyframes tailMini {
   0% { transform: rotate(-5deg); }
   100% { transform: rotate(18deg); }
+}
+
+@keyframes pulseTip {
+  0%, 100% { transform: translateX(0); opacity: 1; }
+  50% { transform: translateX(5px); opacity: 0.6; }
 }
 
 /* ==========================================================================
    RESPONSIVE QUERIES
    ========================================================================== */
 @media (max-width: 768px) {
-  .intro-title { font-size: 2.5rem; }
-  .intro-subtitle { font-size: 1.15rem; }
+  .fairytale-title { font-size: 2.8rem; }
+  .fairytale-subtitle { font-size: 1.25rem; }
   .desktop-only { display: none; }
   
-  .envelope-wrapper { height: 320px; }
-  .wax-seal-body { width: 78px; height: 78px; }
-  .seal-inner-ring { width: 62px; height: 62px; }
-  .seal-logo { font-size: 0.95rem; }
-  .vintage-stamp { display: none; }
-  .envelope-recipient { font-size: 0.92rem; bottom: 18px; left: 18px; }
+  .chapter-heading { font-size: 2rem; }
+  .story-prose { font-size: 1.22rem; line-height: 1.85; }
+  .quote-body { font-size: 1.5rem; }
+  .callout-text { font-size: 1.35rem; }
   
-  .letter-parchment { padding: 3rem 1.6rem; }
-  .letter-salutation { font-size: 2.1rem; }
-  .letter-content-flow { font-size: 1.18rem; line-height: 1.8; }
-  .wishes-headline { font-size: 1.55rem; }
+  .letter-story-parchment { padding: 3rem 1.6rem; }
+  .letter-greeting { font-size: 2.2rem; }
+  .letter-prose-flow { font-size: 1.2rem; }
   .handwritten-name { font-size: 3.2rem; }
   
-  .sparkler-card { padding: 2rem 1.2rem; }
-  .sparkler-title { font-size: 1.9rem; }
+  .sparkler-prompt-tip { display: none; }
 }

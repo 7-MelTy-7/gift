@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Для Маши ❄️ Новогоднее Письмо 2027</title>
-  <meta name="description" content="Особенная интерактивная 3D-открытка и новогоднее послание для Маши Свечниковой.">
+  <title>Сказка о Звёздной Девочке ❄️ Для Маши • 2027</title>
+  <meta name="description" content="Интерактивная новогодняя 3D-книга сказка, созданная специально для Маши Свечниковой.">
 
   <!-- Google Fonts: Editorial Serif, Refined Sans, Authentic Cursive -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400;1,700&display=swap" rel="stylesheet">
 
-  <!-- CDN Libraries: Three.js for 3D volumetric snow & parallax, Canvas Confetti for holiday burst -->
+  <!-- CDN Libraries: Three.js for slow 3D snowfall, Canvas Confetti for holiday celebrations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
@@ -19,348 +19,366 @@
 </head>
 <body>
 
-  <!-- Three.js 3D Background Canvas (Volumetric Falling Snowflakes & Bokeh Lights) -->
-  <canvas id="webgl-snow"></canvas>
+  <!-- Three.js 3D Background Canvas (Slow, peaceful snowfall & ambient bokeh) -->
+  <canvas id="fairytale-snow"></canvas>
 
-  <!-- Frost / Glass Vignette Overlay -->
-  <div class="window-frost" aria-hidden="true"></div>
+  <!-- Ambient Golden Dust & Soft Frost Vignette -->
+  <div class="ambient-frost" aria-hidden="true"></div>
+  <div class="golden-stardust" aria-hidden="true"></div>
 
-  <!-- Ambient Floating Holiday Dust -->
-  <div class="holiday-dust" aria-hidden="true"></div>
-
-  <!-- Minimalist Header -->
-  <header class="holiday-header">
-    <div class="header-inner">
-      <div class="monogram-badge">
-        <span class="monogram-text">M ❄️ M</span>
-        <span class="monogram-sub">Новый Год 2027</span>
-      </div>
-      <div class="header-tag">
-        <span class="sparkle-icon">✨</span>
-        <span class="tag-label">Личное праздничное послание</span>
-      </div>
+  <!-- Minimalist Floating Monogram Navigation -->
+  <header class="fairytale-nav">
+    <div class="nav-brand">
+      <span class="nav-monogram">M 𝜗𝜚 M</span>
+      <span class="nav-year">Новогодняя Книга • 2027</span>
+    </div>
+    <div class="nav-chapters-indicator">
+      <span class="active-dot"></span>
+      <span id="chapter-label">Пролог: Зимняя Москва</span>
     </div>
   </header>
 
-  <!-- Main Journey Container -->
-  <main class="story-wrapper">
+  <!-- Main Fairytale Book Flow (Borderless, fluid, cinematic) -->
+  <main class="book-container">
 
     <!-- ============================================================
-         SCENE 1: THE WINTER FROST INVITATION
+         ПРОЛОГ: ВСТУПЛЕНИЕ В СКАЗКУ
          ============================================================ -->
-    <section class="scene scene-intro" id="scene-intro">
-      <div class="intro-content">
-        <div class="season-badge">
-          <span class="flake">❄️</span>
-          <span>Канун Нового Года • Зимняя Сказка</span>
-          <span class="flake">❄️</span>
+    <section class="book-chapter prologue-chapter" id="chapter-prologue">
+      <div class="chapter-inner">
+        <div class="fairytale-badge">
+          <span class="badge-star">✦</span>
+          <span>Новогодняя сказка о живом тепле</span>
+          <span class="badge-star">✦</span>
         </div>
 
-        <h1 class="intro-title">
-          Маша, это письмо <br>
-          <span class="gold-gradient">написано только для тебя</span>
+        <h1 class="fairytale-title">
+          Сказка о <br>
+          <span class="gold-shimmer">Звёздной Девочке</span>
         </h1>
 
-        <p class="intro-subtitle">
-          Когда за окном кружится декабрьский снег, Москва зажигает миллионы тёплых гирлянд, <br class="desktop-only">
-          а в воздухе пахнет хвоей, шоколадом и наступающим волшебством...
+        <p class="fairytale-subtitle">
+          Посвящается Маше — человеку, который больше всего не любит зимний мороз, <br class="desktop-only">
+          но умеет согревать весь мир вокруг себя одним только присутствием.
         </p>
 
-        <!-- Interactive Envelope Preview / Invitation -->
-        <div class="envelope-cue-wrap">
-          <div class="envelope-cue-card" id="scroll-to-envelope">
-            <div class="cue-icon">✉️</div>
-            <div class="cue-text">
-              <strong>Тебе пришло настоящее новогоднее письмо</strong>
-              <span>Нажми или листай вниз, чтобы открыть сургучную печать</span>
-            </div>
-            <div class="cue-arrow">↓</div>
+        <div class="book-scroll-prompt">
+          <div class="mouse-icon">
+            <span class="mouse-wheel"></span>
           </div>
+          <span>Листай вниз, чтобы открыть первую главу</span>
         </div>
       </div>
     </section>
 
 
     <!-- ============================================================
-         SCENE 2: THE 3D BURGUNDY ROYAL CHRISTMAS ENVELOPE
+         ГЛАВА I: ДЕВОЧКА В КАПЮШОНЕ И НАУШНИКАХ
          ============================================================ -->
-    <section class="scene scene-envelope" id="scene-envelope">
-      
-      <div class="envelope-3d-stage" id="envelope-stage">
-        
-        <div class="envelope-wrapper" id="envelope-card">
-          <!-- Envelope Body in Rich Wine/Burgundy Velvet -->
-          <div class="envelope-back"></div>
-          
-          <!-- White Silk Ribbon Cross Wrap -->
-          <div class="ribbon-vertical"></div>
-          <div class="ribbon-horizontal"></div>
-          <div class="ribbon-bow">
-            <span class="bow-loop left"></span>
-            <span class="bow-center"></span>
-            <span class="bow-loop right"></span>
+    <section class="book-chapter" id="chapter-1">
+      <div class="chapter-inner">
+        <div class="chapter-number">Глава I</div>
+        <h2 class="chapter-heading">Вся палитра красок и любимый оверсайз</h2>
+
+        <div class="story-prose">
+          <p>
+            В шумной декабрьской Москве, буквально в пяти минутах неспешной ходьбы от родной школы, живёт удивительная девушка. Её рост — ровно 160 сантиметров изящества и чистого обаяния, из-за чего в спортзале ей всегда приходится аккуратно подгонять под себя рычаги тренажёров.
+          </p>
+
+          <p>
+            Её невозможно представить без любимой просторной оверсайз-толстовки. А её фирменный, ни на кого не похожий стиль — надевать большие накладные проводные наушники прямо поверх натянутого тёплого капюшона. В этих наушниках звучит целый мир: от преданной с давних пор любви к <strong class="text-glow">BTS</strong> и нежных, сказочных феечек <strong class="text-glow">ILLIT</strong> с их <em>«Do the Dance»</em> до самых душевных строк <strong class="text-glow">OG Buda</strong>.
+          </p>
+
+          <div class="quote-interlude">
+            <span class="quote-mark">«</span>
+            <span class="quote-body">Твой комфорт превыше всего</span>
+            <span class="quote-mark">»</span>
+            <span class="quote-author">— Её главное негласное правило в общении с теми, кто дорог</span>
           </div>
 
-          <!-- Triangular Flap -->
-          <div class="envelope-flap" id="envelope-flap">
-            <div class="flap-fold"></div>
-          </div>
+          <p>
+            В ней живёт редкая и добрая душа, не переносящая фальши и злости. Она щедро раздаёт поддержку («ты умничка», «ты тигр», «бусинка 🤏»), улыбается забавным «йомайо», «пипяо» и «супер-пупер вайбик», а когда первого сентября маленькая первоклассница робко обратилась к ней на «Вы», она лишь рассмеялась: <em>«Я ощутила себя старой чутчут»</em>.
+          </p>
+        </div>
+      </div>
+    </section>
 
-          <!-- Gold Leaf Foil Corners & Filigree -->
-          <div class="foil-corner top-left"></div>
-          <div class="foil-corner top-right"></div>
-          <div class="foil-corner bottom-left"></div>
-          <div class="foil-corner bottom-right"></div>
 
-          <!-- Postal Letter Stamp Details -->
-          <div class="postal-stamp-wrap">
-            <div class="vintage-stamp">
-              <span class="stamp-year">2027</span>
-              <span class="stamp-tree">🎄</span>
-              <span class="stamp-city">MOSCOW</span>
+    <!-- ============================================================
+         ГЛАВА II: МЕЧТЫ ОБ ОРБИТАХ И ФИЗИКА ВСЕЛЕННОЙ
+         ============================================================ -->
+    <section class="book-chapter" id="chapter-2">
+      <div class="chapter-inner">
+        <div class="chapter-number">Глава II</div>
+        <h2 class="chapter-heading">Тайны Вселенной и авиарежим на уроках</h2>
+
+        <div class="story-prose">
+          <p>
+            ГБОУ Школа «Дмитровский». Инженерный выпускной 11 «И» класс. В то время как многие боятся сложных уравнений, Маша нашла в них свою главную страсть. 
+          </p>
+
+          <div class="callout-statement">
+            <div class="callout-icon">🌌</div>
+            <div class="callout-text">
+              «Единственное место, где мне не лень думать — это физика!»
             </div>
-            <div class="postmark-circle">
-              <span>31.XII</span>
+          </div>
+
+          <p>
+            Она с лёгкостью щёлкает сложнейшие задачи второй части с несколькими теплообменами, моменты сил и кинематику. На уроках строгой и гениальной Наталии Александровны у ребят всегда действует железный «авиарежим», но именно эта требовательность вдохновляет Машу больше всего.
+          </p>
+
+          <!-- Interactive Celestial Constellation Widget -->
+          <div class="fairytale-interactive-card">
+            <div class="constellation-viewer">
+              <svg viewBox="0 0 320 160" class="constellation-svg">
+                <!-- Constellation Lines -->
+                <line x1="40" y1="90" x2="100" y2="40" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5" stroke-dasharray="3 3" />
+                <line x1="100" y1="40" x2="180" y2="70" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5" stroke-dasharray="3 3" />
+                <line x1="180" y1="70" x2="260" y2="35" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5" stroke-dasharray="3 3" />
+                <line x1="180" y1="70" x2="210" y2="125" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5" stroke-dasharray="3 3" />
+                <!-- Stars -->
+                <circle cx="40" cy="90" r="4" fill="#ffd966" class="star-pulse" />
+                <circle cx="100" cy="40" r="5" fill="#ffffff" class="star-pulse" />
+                <circle cx="180" cy="70" r="6" fill="#ffd966" class="star-pulse" />
+                <circle cx="260" cy="35" r="4.5" fill="#70d6ff" class="star-pulse" />
+                <circle cx="210" cy="125" r="4" fill="#ffffff" class="star-pulse" />
+                <!-- Constellation Labels -->
+                <text x="100" y="25" fill="#ffd966" font-size="10" font-family="Montserrat" text-anchor="middle">Астрономия</text>
+                <text x="260" y="20" fill="#70d6ff" font-size="10" font-family="Montserrat" text-anchor="middle">Ракетостроение</text>
+                <text x="210" y="145" fill="#ffffff" font-size="10" font-family="Montserrat" text-anchor="middle">Космос</text>
+              </svg>
+            </div>
+            <div class="interactive-caption">
+              <span>Мечта всей жизни: стать астрономом, покорять орбиты и разгадывать тайны далёких галактик 🔭</span>
             </div>
           </div>
 
-          <div class="envelope-recipient">
-            <span class="to-label">Куда:</span> Москва, в самые тёплые руки <br>
-            <span class="to-label">Кому:</span> Маше Свечниковой 🤍
+          <p>
+            Она мечтает посвятить жизнь космосу: стать настоящим астрономом или строить ракеты, которые однажды поднимутся к звёздам. Её упорство и тяга к неизведанному делают её взгляд на мир невероятно красивым.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         ГЛАВА III: КНИЖНЫЕ ПОЛКИ, УЮТ И ПУШИНКА
+         ============================================================ -->
+    <section class="book-chapter" id="chapter-3">
+      <div class="chapter-inner">
+        <div class="chapter-number">Глава III</div>
+        <h2 class="chapter-heading">Живые книги, домашняя пицца и белое облачко</h2>
+
+        <div class="story-prose">
+          <p>
+            Маша по-настоящему влюблена в живые бумажные книги. На её полках аккуратно расставлены любимые романы, и к каждой книге она относится с особым трепетом. Её фаворит — остросюжетный роман Анны Джейн <em>«Поклонник»</em>, сюжет которого захватывает с первых страниц, а на следующее лето её уже ждёт трогательный роман Николаса Спаркса <em>«Спеши любить»</em>.
+          </p>
+
+          <p>
+            Но её таланты не ограничиваются книгами и формулами. Вместе с подругой Сашей Маша сотворила настоящий кулинарный шедевр — фирменную домашнюю пепперони на румяном тесте с аппетитной сырной корочкой! А главный десерт в её вселенной — это шоколадное мороженое (которое потом обязательно нужно запивать водой!) и полезные батончики Fitness Shock.
+          </p>
+
+          <!-- Cute Fluffy Cat Pushinka Moment -->
+          <div class="fairytale-cat-interlude">
+            <div class="cat-halo">
+              <span class="cat-emoji">🐱🤍</span>
+            </div>
+            <div class="cat-text-block">
+              <div class="cat-shout">«ОЙ КАКАЯ БУБОЧКА! 🤏🤏»</div>
+              <p>
+                Именно так, с искренним восторгом и умилением до небес, Маша отреагировала на белоснежную пушистую кошечку Пушинку с пронзительными глазами. Потому что пушистые котики — это лучший домашний антистресс в мире.
+              </p>
+            </div>
           </div>
 
-          <!-- Wax Seal (The Magic Click Trigger) -->
-          <div class="wax-seal-container" id="wax-seal-btn" title="Нажми, чтобы сломать сургуч и открыть письмо!">
-            <div class="wax-seal-body">
-              <div class="seal-inner-ring">
-                <span class="seal-logo">M &amp; M</span>
-                <span class="seal-year">❄️ 2027 ❄️</span>
+          <p>
+            А ещё этим летом с ней приключилась настоящая история из кино: прямо во время прогулки в парке к ней подошла Регина Тодоренко и сняла с ней совместное памятное видео! В жизни Маши всегда есть место ярким, кинематографичным моментам.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         ГЛАВА IV: СУДЬБОНОСНАЯ ЗАЯВКА В ДРУЗЬЯ
+         ============================================================ -->
+    <section class="book-chapter" id="chapter-4">
+      <div class="chapter-inner">
+        <div class="chapter-number">Глава IV</div>
+        <h2 class="chapter-heading">Арена Blade Ball и то самое мгновение</h2>
+
+        <div class="story-prose">
+          <p>
+            Август 2026 года. Неоновые вспышки арены Blade Ball. Среди сотен тысяч игроков мы оказались на одном сервере. Маша играла со своей верной способностью <strong>«Ангел» 🪽</strong> — принципиально, честно, полагаясь только на свою молниеносную реакцию и природную внимательность, без единого макроса.
+          </p>
+
+          <p>
+            Мяч летел с сумасшедшей скоростью, закладывая рикошеты по спирали. Катка закончилась, но в этот момент произошло то, что навсегда изменило ход событий...
+          </p>
+
+          <div class="highlight-memory-moment">
+            <div class="memory-glow"></div>
+            <div class="memory-title">Судьбоносный момент года:</div>
+            <div class="memory-text">Твоя заявка в друзья 💌</div>
+            <div class="memory-sub">Один клик, который соединил две орбиты в целую вселенную разговоров, шуток и душевного тепла.</div>
+          </div>
+
+          <p>
+            Если бы не твоя заявка в друзья — этот год был бы совершенно иным. Но законы тяготения сработали безотказно. С тех самых пор не было ни одного дня без искренней улыбки.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         ГЛАВА V: ЗАВЕТНАЯ МЕЧТА ПОД ЁЛКОЙ
+         ============================================================ -->
+    <section class="book-chapter" id="chapter-5">
+      <div class="chapter-inner">
+        <div class="chapter-number">Глава V</div>
+        <h2 class="chapter-heading">Кремовая такса, которая обязательно появится</h2>
+
+        <div class="story-prose">
+          <p>
+            У каждого в новогоднюю ночь есть мечта, от одной мысли о которой становится тепло на сердце. У Маши эта мечта особенная: <strong>карликовая длинношёрстная такса нежного кремового окраса</strong>.
+          </p>
+
+          <!-- Interactive Snowglobe with Sleeping Cream Dachshund -->
+          <div class="fairytale-globe-stage" id="globe-container">
+            <div class="globe-glass-orb" id="fairytale-globe" title="Нажми на шар, чтобы закружился золотой снег!">
+              <div class="orb-highlight"></div>
+              <div class="orb-snow-particles" id="orb-particles"></div>
+              
+              <!-- Miniature inside the orb -->
+              <div class="orb-content">
+                <div class="orb-tree">🎄</div>
+                
+                <!-- Sleeping Cream Dachshund SVG -->
+                <div class="orb-dog">
+                  <svg viewBox="0 0 140 100" class="dog-svg-art">
+                    <path id="orb-dog-tail" d="M 22,58 Q 12,42 18,32" stroke="#e6c29b" stroke-width="6" stroke-linecap="round" fill="none"/>
+                    <ellipse cx="60" cy="62" rx="38" ry="18" fill="#f6dfb8"/>
+                    <ellipse cx="60" cy="60" rx="34" ry="15" fill="#fcf1df"/>
+                    <ellipse cx="36" cy="74" rx="9" ry="6" fill="#e6c29b"/>
+                    <ellipse cx="80" cy="74" rx="9" ry="6" fill="#e6c29b"/>
+                    <ellipse cx="98" cy="52" rx="18" ry="14" fill="#fcf1df"/>
+                    <path d="M 108,52 Q 124,56 120,64 Q 106,62 100,56 Z" fill="#f6dfb8"/>
+                    <ellipse cx="120" cy="60" rx="3.5" ry="3" fill="#422f21"/>
+                    <path id="orb-dog-ear" d="M 90,44 Q 82,64 90,78 Q 98,74 96,52 Z" fill="#dfb589"/>
+                    <path d="M 103,50 Q 106,53 109,50" stroke="#422f21" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                    <path d="M 88,60 Q 94,66 102,58" stroke="#d90429" stroke-width="5" fill="none"/>
+                    <circle cx="95" cy="64" r="2.5" fill="#ffd166"/>
+                  </svg>
+                </div>
               </div>
             </div>
-            <div class="seal-glow"></div>
-            <div class="seal-hover-prompt">Нажми, чтобы распечатать</div>
+
+            <div class="orb-stand">
+              <div class="stand-wood"></div>
+              <div class="stand-plaque">Мечта 2027 года 🐾</div>
+            </div>
+
+            <div class="globe-tap-hint">
+              <span>(Прикоснись к шару: он закружит золотой снег вокруг спящего щенка)</span>
+            </div>
           </div>
 
-          <!-- Envelope Pocket Front -->
-          <div class="envelope-pocket"></div>
+          <p>
+            Этот маленький хвостик непременно появится в твоей жизни. Он будет радостно встречать тебя после школьных олимпиад и тренировок, уютно спать на пледе и дарить самое искреннее собачье счастье.
+          </p>
         </div>
-
-        <div class="stage-instructions" id="open-hint">
-          ✨ Прикоснись к сургучной печати, чтобы снять шелковую ленту и прочитать послание ✨
-        </div>
-
       </div>
-
     </section>
 
 
     <!-- ============================================================
-         SCENE 3: THE UNFOLDED PHYSICAL LETTER & TACTILE CARD
+         ЭПИЛОГ: ПИСЬМО ОТ МИШИ & БЕНГАЛЬСКИЙ ОГОНЬ
          ============================================================ -->
-    <section class="scene scene-letter hidden-letter" id="scene-letter">
-      
-      <div class="letter-scroll-track">
+    <section class="book-chapter epilogue-chapter" id="chapter-epilogue">
+      <div class="chapter-inner">
         
-        <!-- The Tactile Paper Sheet -->
-        <article class="letter-parchment" id="letter-sheet">
-          
-          <!-- Ornate Holiday Border -->
-          <div class="parchment-frame"></div>
-          
-          <!-- Top Postage Header -->
-          <header class="letter-header">
-            <div class="letter-stamp-box">
-              <div class="postage-art">❄️ С Новым Годом!</div>
-              <div class="postage-date">Декабрь 2026 ➔ Январь 2027</div>
-            </div>
-            <div class="letter-title-group">
-              <span class="ornament-divider">✧ • ❄️ • ✧</span>
-              <h2 class="letter-salutation">Маша, приветик!</h2>
-              <span class="ornament-sub">Праздничное письмо для тебя</span>
-            </div>
-          </header>
+        <!-- The Royal Letter Parchment (Smooth, elegant, seamlessly integrated) -->
+        <article class="letter-story-parchment">
+          <div class="parchment-gold-top">✦ ❄️ ✦</div>
+          <h2 class="letter-greeting">Маша, приветик!</h2>
 
-          <!-- Letter Body Text with Kinetic Scroll Reveal -->
-          <div class="letter-content-flow">
-            
-            <p class="story-paragraph reveal-p">
+          <div class="letter-prose-flow">
+            <p>
               За окном кружится декабрьский снег, праздничная Москва зажигает миллионы тёплых огней, а я ловлю себя на мысли, как удивительно и неслучайно устроен этот мир.
             </p>
 
-            <p class="story-paragraph reveal-p">
-              Если бы в августе среди сотен тысяч игроков мы не оказались в одной игре, <strong class="highlight-warm">если бы не твоя заявка в друзья</strong> — этот год для меня был бы совершенно другим. Но законы вселенной решили соединить наши орбиты, и это стало самым лучшим и ярким событием.
+            <p>
+              Если бы в августе среди сотен тысяч игроков мы не оказались в одной игре, <strong>если бы не твоя заявка в друзья</strong> — этот год для меня был бы совершенно другим. Но законы вселенной решили соединить наши орбиты, и это стало самым лучшим и ярким событием.
             </p>
 
-            <!-- TRINKET 1: Interactive Celestial Orbital Map -->
-            <div class="margin-trinket orbit-trinket reveal-trinket">
-              <div class="orbit-visual">
-                <svg viewBox="0 0 240 140" class="orbit-svg">
-                  <!-- Orbital Ellipses -->
-                  <ellipse cx="120" cy="70" rx="95" ry="40" fill="none" stroke="rgba(212, 175, 55, 0.35)" stroke-dasharray="4 4" class="orbit-path-1" />
-                  <ellipse cx="120" cy="70" rx="65" ry="28" fill="none" stroke="rgba(110, 198, 255, 0.4)" stroke-dasharray="3 3" class="orbit-path-2" />
-                  <!-- Star Centers -->
-                  <circle cx="120" cy="70" r="14" fill="url(#goldStarGrad)" class="center-star" />
-                  <!-- Orbiting Nodes -->
-                  <g class="orbit-node node-misha">
-                    <circle cx="35" cy="70" r="6" fill="#6ec6ff" />
-                    <text x="35" y="92" font-size="10" fill="#a0c8e6" text-anchor="middle" font-family="Montserrat">Миша</text>
-                  </g>
-                  <g class="orbit-node node-masha">
-                    <circle cx="205" cy="70" r="7" fill="#ffd166" />
-                    <text x="205" y="92" font-size="10" fill="#ffd166" text-anchor="middle" font-family="Montserrat">Маша</text>
-                  </g>
-                  <defs>
-                    <radialGradient id="goldStarGrad" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stop-color="#fff7d6" />
-                      <stop offset="60%" stop-color="#d4af37" />
-                      <stop offset="100%" stop-color="#8a6d1b" />
-                    </radialGradient>
-                  </defs>
-                </svg>
-              </div>
-              <div class="trinket-caption">
-                <span class="caption-icon">🪐</span>
-                <span>05 Августа: Blade Ball ➔ Твоя заявка в друзья ➔ Соединение орбит</span>
-              </div>
-            </div>
-
-            <p class="story-paragraph reveal-p">
+            <p>
               За эти месяцы я узнал, какой ты потрясающий, многогранный и удивительный человек. Мне невероятно нравится твой живой, острый ум и то, с каким горящим взглядом ты смотришь на физику, звёзды и бескрайний космос. Ты умеешь видеть красоту там, где другие видят лишь формулы, и это по-настоящему восхищает.
             </p>
 
-            <p class="story-paragraph reveal-p">
+            <p>
               В тебе удивительным образом сочетаются инженерная рассудительность и безграничная чуткость. Твоя доброта, забота, искренний смех и лёгкость делают любой разговор особенным, а день — светлым. Ты из тех редких людей, рядом с которыми тепло даже в самую морозную метель — словно в любимой уютной толстовке за чашкой горячего шоколада. В твоем характере есть вся палитра красок: от целеустремленности и твердости характера до нежности и трогательной любви к пушистым радостям.
             </p>
 
-            <!-- TRINKET 2: Interactive 3D Snowglobe with Cream Dachshund -->
-            <div class="margin-trinket snowglobe-trinket reveal-trinket" id="snowglobe-card">
-              <div class="snowglobe-stage" id="snowglobe-interactive">
-                
-                <div class="globe-glass">
-                  <div class="globe-shine"></div>
-                  <!-- Swirling Snow Particles inside globe -->
-                  <div class="globe-snow-inner" id="globe-snow"></div>
-
-                  <!-- Miniature Inside the Globe -->
-                  <div class="globe-miniature">
-                    <div class="mini-tree">🎄</div>
-                    
-                    <!-- Cute Cream Dachshund Sleeping in the snow -->
-                    <div class="mini-dachshund" id="mini-dog">
-                      <svg viewBox="0 0 140 100" class="dachshund-svg">
-                        <!-- Tail -->
-                        <path id="mini-dog-tail" d="M 22,58 Q 12,42 18,32" stroke="#e6c29b" stroke-width="6" stroke-linecap="round" fill="none"/>
-                        <!-- Dachshund Long Body -->
-                        <ellipse cx="60" cy="62" rx="38" ry="18" fill="#f6dfb8"/>
-                        <ellipse cx="60" cy="60" rx="34" ry="15" fill="#fcf1df"/>
-                        <!-- Legs tucked -->
-                        <ellipse cx="36" cy="74" rx="9" ry="6" fill="#e6c29b"/>
-                        <ellipse cx="80" cy="74" rx="9" ry="6" fill="#e6c29b"/>
-                        <!-- Head sleeping -->
-                        <ellipse cx="98" cy="52" rx="18" ry="14" fill="#fcf1df"/>
-                        <path d="M 108,52 Q 124,56 120,64 Q 106,62 100,56 Z" fill="#f6dfb8"/>
-                        <ellipse cx="120" cy="60" rx="3.5" ry="3" fill="#422f21"/>
-                        <!-- Floppy Ear -->
-                        <path id="mini-dog-ear" d="M 90,44 Q 82,64 90,78 Q 98,74 96,52 Z" fill="#dfb589"/>
-                        <!-- Sleeping Eye -->
-                        <path d="M 103,50 Q 106,53 109,50" stroke="#422f21" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-                        <!-- Little Red Christmas Scarf -->
-                        <path d="M 88,60 Q 94,66 102,58" stroke="#d90429" stroke-width="5" fill="none"/>
-                        <circle cx="95" cy="64" r="2.5" fill="#ffd166"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Snowglobe Wooden Base -->
-                <div class="globe-base">
-                  <div class="base-wood"></div>
-                  <div class="base-brass-plate">
-                    <span>Снежный шар мечты • 2027</span>
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="trinket-caption">
-                <span class="caption-icon">🐾</span>
-                <span>Нажми на шар: кремовая мини-такса греется в снежном вихре и видит сладкие сны!</span>
-              </div>
-            </div>
-
-            <p class="story-paragraph reveal-p">
+            <p>
               В канун Нового года принято загадывать самые заветные желания. Я от всего сердца хочу пожелать тебе, чтобы наступающий 2027 год принёс тебе бесконечное вдохновение, лёгкость во всех твоих начинаниях и уверенность в каждом шаге. Пусть любые сложные уравнения сходятся в один красивый ответ, а мечты сбываются одна за другой (и пусть та самая кремовая длинношёрстная мини-такса обязательно появится в твоих руках и станет самым преданным другом!).
             </p>
 
-            <p class="story-paragraph reveal-p">
+            <p>
               Спасибо тебе за твоё тепло, за поддержку, за наши разговоры обо всём на свете и за то, какая ты настоящая.
             </p>
-
           </div>
 
-          <!-- Letter Festive Closing & Handwritten Signature -->
-          <footer class="letter-footer">
-            <div class="wishes-headline reveal-p">
-              С наступающим Новым годом! <br>
-              <span class="wishes-accent">Пусть он будет полон чудес, радости и улыбок ✨</span>
-            </div>
+          <div class="letter-congratulation">
+            С наступающим Новым годом! <br>
+            <span class="gold-gradient-text">Пусть он будет полон чудес, радости и улыбок ✨</span>
+          </div>
 
-            <div class="signature-block reveal-p">
-              <span class="signature-intro">С душевным теплом,</span>
-              <span class="handwritten-name">Миша</span>
-              <span class="signature-date">Декабрь 2026 • Москва</span>
-            </div>
-          </footer>
-
+          <div class="letter-sign">
+            <span class="sign-prefix">С душевным теплом,</span>
+            <span class="sign-handwritten">Миша</span>
+            <span class="sign-footer-date">Декабрь 2026 • Москва</span>
+          </div>
         </article>
 
-      </div>
 
-    </section>
+        <!-- INTERACTIVE SPARKLER (БЕНГАЛЬСКИЙ ОГОНЬ С РЕАЛИСТИЧНЫМ ЧИРКАНЬЕМ) -->
+        <div class="sparkler-fairytale-ritual">
+          <div class="ritual-header">
+            <span class="ritual-badge">🎇 НОВОГОДНИЙ РИТУАЛ</span>
+            <h3 class="ritual-title">Зажги бенгальский огонь</h3>
+            <p class="ritual-instruction">
+              Проведи пальцем или курсором прямо по кончику бенгальского огня, чтобы чиркнуть и зажечь праздничные искры!
+            </p>
+          </div>
 
+          <div class="sparkler-canvas-holder">
+            <canvas id="fairytale-sparkler-canvas"></canvas>
+            <div class="sparkler-prompt-tip" id="sparkler-tip-label">
+              <span>← Чиркни здесь, чтобы зажечь!</span>
+            </div>
+          </div>
 
-    <!-- ============================================================
-         SCENE 4: INTERACTIVE NEW YEAR SPARKLER (БЕНГАЛЬСКИЙ ОГОНЬ)
-         ============================================================ -->
-    <section class="scene scene-sparkler" id="scene-sparkler">
-      
-      <div class="sparkler-card">
-        <div class="sparkler-header">
-          <span class="sparkler-badge">🎇 НОВОГОДНИЙ РИТУАЛ</span>
-          <h3 class="sparkler-title">Зажги свой бенгальский огонь</h3>
-          <p class="sparkler-prompt">
-            Проведи курсором или пальцем по кончику бенгальского огня, чтобы зажечь праздничные искры и загадать своё самое заветное желание на 2027 год!
-          </p>
-        </div>
-
-        <!-- Sparkler Canvas Stage -->
-        <div class="sparkler-interactive-stage">
-          <canvas id="sparkler-canvas"></canvas>
-          <div class="sparkler-hint" id="sparkler-status">
-            ✨ Проведи по кончику бенгальского огня, чтобы зажечь ✨
+          <div class="wish-message-card" id="wish-result-card">
+            <div class="wish-star-burst">🌟</div>
+            <div class="wish-text-main">
+              Твоё новогоднее желание отправлено прямо к звёздам! <br>
+              <strong>Оно обязательно сбудется в 2027 году! ❄️</strong>
+            </div>
+            <button id="sparkler-relight-btn" class="fairytale-btn">Зажечь ещё разок ✨</button>
           </div>
         </div>
 
-        <!-- Wishes Reaction Output -->
-        <div class="wish-reveal-box" id="wish-box">
-          <div class="wish-icon">💫</div>
-          <div class="wish-message">
-            Твоё новогоднее желание отправлено прямо к звёздам! <br>
-            <strong>Оно обязательно исполнится в 2027 году! ❄️</strong>
-          </div>
-          <button id="reignite-btn" class="holiday-ghost-btn">Зажечь ещё разок ✨</button>
-        </div>
-
       </div>
-
     </section>
 
   </main>
 
-  <!-- Festive Footer -->
-  <footer class="festive-footer">
-    <div class="footer-decor">✦ • ❄️ • ✦</div>
-    <div class="footer-note">Создано с искренней теплотой специально для Маши • Новый Год 2027</div>
+  <!-- Seamless Footer -->
+  <footer class="fairytale-footer">
+    <div class="footer-constellation">✦ • ❄️ • ✦</div>
+    <div class="footer-copyright">Сказка написана специально для Маши • Новый Год 2027</div>
   </footer>
 
   <script src="script.js"></script>
