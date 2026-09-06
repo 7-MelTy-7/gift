@@ -1,13 +1,13 @@
 /* ==========================================================================
-   MASHA'S NEW YEAR 2027 FAIRYTALE BOOK • SCRIPT.JS
-   Slow Volumetric Three.js Snow, Chapter Tracking, Accurate Sparkler Friction
+   MASHA'S NEW YEAR 2027 3D FLIP-BOOK • SCRIPT.JS
+   3D Page Flip Engine, Controlled Sentence Reveal, Web Audio Paper Rustle, Sparkler
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
   initSlowThreeSnow();
-  initChapterScrollTracker();
-  initGlobeInteraction();
-  initFrictionSparkler();
+  init3DFlipBookEngine();
+  initProgressiveTextReveal();
+  initBookSparkler();
 });
 
 /* ==========================================================================
@@ -25,40 +25,39 @@ function initSlowThreeSnow() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  // Volumetric Snow Particles (Gentle, peaceful count)
-  const particleCount = 450;
+  const particleCount = 420;
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(particleCount * 3);
   const velocities = new Float32Array(particleCount * 3);
 
   for (let i = 0; i < particleCount; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 800;      // X
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 800;  // Y
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 600;  // Z
+    positions[i * 3] = (Math.random() - 0.5) * 800;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 800;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 600;
 
-    velocities[i * 3] = (Math.random() - 0.5) * 0.15;    // very gentle horizontal drift
-    velocities[i * 3 + 1] = -(Math.random() * 0.45 + 0.25); // SLOW falling speed (3x slower!)
-    velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.08; // subtle depth drift
+    velocities[i * 3] = (Math.random() - 0.5) * 0.12;
+    velocities[i * 3 + 1] = -(Math.random() * 0.4 + 0.2); // Slow, peaceful fall
+    velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.08;
   }
 
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-  // Soft Radial Flake Texture
-  const snowCanvas = document.createElement('canvas');
-  snowCanvas.width = 64;
-  snowCanvas.height = 64;
-  const sCtx = snowCanvas.getContext('2d');
+  // Snowflake Texture
+  const sCanvas = document.createElement('canvas');
+  sCanvas.width = 64;
+  sCanvas.height = 64;
+  const sCtx = sCanvas.getContext('2d');
   const gradient = sCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
   gradient.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-  gradient.addColorStop(0.3, 'rgba(240, 248, 255, 0.7)');
-  gradient.addColorStop(0.65, 'rgba(212, 175, 55, 0.2)');
+  gradient.addColorStop(0.35, 'rgba(240, 248, 255, 0.7)');
+  gradient.addColorStop(0.7, 'rgba(212, 175, 55, 0.15)');
   gradient.addColorStop(1, 'rgba(212, 175, 55, 0)');
   sCtx.fillStyle = gradient;
   sCtx.beginPath();
   sCtx.arc(32, 32, 32, 0, Math.PI * 2);
   sCtx.fill();
 
-  const snowTexture = new THREE.CanvasTexture(snowCanvas);
+  const snowTexture = new THREE.CanvasTexture(sCanvas);
 
   const material = new THREE.PointsMaterial({
     size: 5.5,
@@ -66,22 +65,11 @@ function initSlowThreeSnow() {
     blending: THREE.AdditiveBlending,
     depthTest: false,
     transparent: true,
-    opacity: 0.75
+    opacity: 0.8
   });
 
   const snowSystem = new THREE.Points(geometry, material);
   scene.add(snowSystem);
-
-  // Parallax tracking
-  let targetMouseX = 0;
-  let targetMouseY = 0;
-  let mouseX = 0;
-  let mouseY = 0;
-
-  window.addEventListener('mousemove', (e) => {
-    targetMouseX = (e.clientX - window.innerWidth / 2) * 0.04;
-    targetMouseY = (e.clientY - window.innerHeight / 2) * 0.04;
-  });
 
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -92,16 +80,10 @@ function initSlowThreeSnow() {
   function animate() {
     requestAnimationFrame(animate);
 
-    mouseX += (targetMouseX - mouseX) * 0.03;
-    mouseY += (targetMouseY - mouseY) * 0.03;
-    camera.position.x = mouseX;
-    camera.position.y = -mouseY;
-    camera.lookAt(scene.position);
-
     const pos = geometry.attributes.position.array;
     for (let i = 0; i < particleCount; i++) {
-      pos[i * 3 + 1] += velocities[i * 3 + 1]; // Slow downward motion
-      pos[i * 3] += velocities[i * 3] + Math.sin(Date.now() * 0.0006 + i) * 0.12; // Slow gentle sway
+      pos[i * 3 + 1] += velocities[i * 3 + 1];
+      pos[i * 3] += velocities[i * 3] + Math.sin(Date.now() * 0.0006 + i) * 0.1;
 
       if (pos[i * 3 + 1] < -400) {
         pos[i * 3 + 1] = 400;
@@ -117,86 +99,229 @@ function initSlowThreeSnow() {
 }
 
 /* ==========================================================================
-   2. CHAPTER SCROLL TRACKER
+   2. WEB AUDIO SYNTHESIZER: PAPER RUSTLE SOUND
    ========================================================================== */
-function initChapterScrollTracker() {
-  const labelEl = document.getElementById('chapter-label');
-  const chapters = [
-    { id: 'chapter-prologue', name: 'Пролог: Зимняя Москва' },
-    { id: 'chapter-1', name: 'Глава I: Оверсайз и Музыка' },
-    { id: 'chapter-2', name: 'Глава II: Физика и Космос' },
-    { id: 'chapter-3', name: 'Глава III: Книги и Пицца' },
-    { id: 'chapter-4', name: 'Глава IV: Заявка в Друзья' },
-    { id: 'chapter-5', name: 'Глава V: Мечта о Таксе' },
-    { id: 'chapter-epilogue', name: 'Эпилог: Письмо и Огонь' }
-  ];
+let audioCtx = null;
+let soundEnabled = true;
 
-  window.addEventListener('scroll', () => {
-    const scrollPos = window.scrollY + window.innerHeight * 0.45;
-    for (let i = chapters.length - 1; i >= 0; i--) {
-      const el = document.getElementById(chapters[i].id);
-      if (el && el.offsetTop <= scrollPos) {
-        if (labelEl && labelEl.textContent !== chapters[i].name) {
-          labelEl.textContent = chapters[i].name;
-        }
-        break;
-      }
+function playPaperRustle() {
+  if (!soundEnabled) return;
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!audioCtx) audioCtx = new AudioContext();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    // Generate gentle white noise burst filtered like paper sliding
+    const bufferSize = audioCtx.sampleRate * 0.18;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const output = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      output[i] = Math.random() * 2 - 1;
     }
-  });
+
+    const whiteNoise = audioCtx.createBufferSource();
+    whiteNoise.buffer = buffer;
+
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(1400, audioCtx.currentTime);
+    filter.Q.setValueAtTime(1.8, audioCtx.currentTime);
+
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.18);
+
+    whiteNoise.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    whiteNoise.start();
+  } catch (e) {}
 }
 
 /* ==========================================================================
-   3. SNOWGLOBE SWIRL INTERACTION
+   3. 3D FLIPBOOK ENGINE
    ========================================================================== */
-function initGlobeInteraction() {
-  const globe = document.getElementById('fairytale-globe');
-  const particlesContainer = document.getElementById('orb-particles');
+let currentSheetIndex = 0;
+const TOTAL_SHEETS = 5; // Sheet 0, 1, 2, 3, 4
 
-  if (!globe || !particlesContainer) return;
+const SHEET_NAMES = [
+  'Обложка книги',
+  'Разворот 1: Пролог & Глава I',
+  'Разворот 2: Глава II & Глава III',
+  'Разворот 3: Глава IV & Глава V',
+  'Разворот 4: Эпилог & Бенгальский огонь'
+];
 
-  function triggerGlobeSwirl() {
-    particlesContainer.innerHTML = '';
-    const count = 30;
+function init3DFlipBookEngine() {
+  const bookEl = document.getElementById('book-element');
+  const prevBtn = document.getElementById('btn-prev-page');
+  const nextBtn = document.getElementById('btn-next-page');
+  const pageCounter = document.getElementById('page-counter');
+  const dots = document.querySelectorAll('.page-indicator-dots .dot');
+  const soundToggleBtn = document.getElementById('btn-sound-toggle');
 
-    for (let i = 0; i < count; i++) {
-      const flake = document.createElement('div');
-      flake.style.position = 'absolute';
-      flake.style.width = `${Math.random() * 3.5 + 2}px`;
-      flake.style.height = flake.style.width;
-      flake.style.backgroundColor = ['#ffffff', '#ffd966', '#d4af37'][Math.floor(Math.random() * 3)];
-      flake.style.borderRadius = '50%';
-      flake.style.left = `${Math.random() * 75 + 12}%`;
-      flake.style.top = `${Math.random() * 65 + 15}%`;
-      flake.style.opacity = '1';
-      flake.style.pointerEvents = 'none';
-      flake.style.transition = 'all 1.7s cubic-bezier(0.2, 0.8, 0.2, 1)';
-
-      particlesContainer.appendChild(flake);
-
-      setTimeout(() => {
-        flake.style.transform = `translate(${(Math.random() - 0.5) * 80}px, ${Math.random() * 45 + 15}px) scale(${Math.random() * 0.8 + 0.4})`;
-        flake.style.opacity = '0';
-      }, 40);
-
-      setTimeout(() => flake.remove(), 1800);
-    }
+  // Initial Z-Index Layering so sheet 0 is on top
+  for (let i = 0; i < TOTAL_SHEETS; i++) {
+    const sheet = document.getElementById(`sheet-${i}`);
+    if (sheet) sheet.style.zIndex = TOTAL_SHEETS - i;
   }
 
-  globe.addEventListener('click', triggerGlobeSwirl);
-  setTimeout(triggerGlobeSwirl, 1500);
+  function updateBookState() {
+    // Center double-spread when book is opened (sheet > 0)
+    if (currentSheetIndex > 0) {
+      bookEl.classList.add('book-opened');
+    } else {
+      bookEl.classList.remove('book-opened');
+    }
+
+    // Update Nav Buttons
+    prevBtn.disabled = (currentSheetIndex === 0);
+    nextBtn.disabled = (currentSheetIndex === TOTAL_SHEETS);
+
+    // Update Counter
+    if (pageCounter) {
+      pageCounter.textContent = SHEET_NAMES[Math.min(currentSheetIndex, TOTAL_SHEETS - 1)];
+    }
+
+    // Update Dots
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === currentSheetIndex);
+    });
+
+    // Auto-reveal first sentence of new visible pages
+    revealCurrentPageContent();
+  }
+
+  function flipForward() {
+    if (currentSheetIndex >= TOTAL_SHEETS) return;
+
+    const sheetToFlip = document.getElementById(`sheet-${currentSheetIndex}`);
+    if (sheetToFlip) {
+      sheetToFlip.classList.add('flipped');
+      sheetToFlip.style.zIndex = currentSheetIndex + 1; // Stack properly on left side
+      playPaperRustle();
+    }
+
+    currentSheetIndex++;
+    updateBookState();
+  }
+
+  function flipBackward() {
+    if (currentSheetIndex <= 0) return;
+
+    currentSheetIndex--;
+    const sheetToUnflip = document.getElementById(`sheet-${currentSheetIndex}`);
+    if (sheetToUnflip) {
+      sheetToUnflip.classList.remove('flipped');
+      sheetToUnflip.style.zIndex = TOTAL_SHEETS - currentSheetIndex; // Stack properly on right side
+      playPaperRustle();
+    }
+
+    updateBookState();
+  }
+
+  // Navigation button listeners
+  nextBtn.addEventListener('click', flipForward);
+  prevBtn.addEventListener('click', flipBackward);
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      flipForward();
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      flipBackward();
+    }
+  });
+
+  // Dot navigation
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      const targetSheet = parseInt(dot.dataset.sheet, 10);
+      while (currentSheetIndex < targetSheet) flipForward();
+      while (currentSheetIndex > targetSheet) flipBackward();
+    });
+  });
+
+  // Sound toggle button
+  if (soundToggleBtn) {
+    soundToggleBtn.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      soundToggleBtn.classList.toggle('active', soundEnabled);
+      soundToggleBtn.querySelector('.btn-label').textContent = soundEnabled ? 'Шелест' : 'Без звука';
+    });
+  }
+
+  // Cover click directly opens book
+  const coverSheet = document.getElementById('sheet-0');
+  if (coverSheet) {
+    coverSheet.querySelector('.page-front').addEventListener('click', flipForward);
+  }
+
+  updateBookState();
 }
 
 /* ==========================================================================
-   4. ACCURATE SPARKLER FRICTION IGNITION (БЕНГАЛЬСКИЙ ОГОНЬ)
+   4. PROGRESSIVE CONTROLLED TEXT REVEAL ("MAGIC INK")
    ========================================================================== */
-function initFrictionSparkler() {
-  const canvas = document.getElementById('fairytale-sparkler-canvas');
+function initProgressiveTextReveal() {
+  const revealAllBtn = document.getElementById('btn-reveal-all');
+
+  // Reveal sentence on clicking parchment pages
+  document.querySelectorAll('.parchment-page').forEach((page) => {
+    page.addEventListener('click', (e) => {
+      // Don't trigger if clicked interactive widgets or buttons
+      if (e.target.closest('#book-sparkler-canvas') || e.target.closest('button')) return;
+
+      const unrevealed = page.querySelectorAll('.prose-sentence:not(.revealed)');
+      if (unrevealed.length > 0) {
+        unrevealed[0].classList.add('revealed');
+      } else {
+        // If all revealed on this page, click hints turning next
+        const hint = page.querySelector('.page-click-hint');
+        if (hint) hint.textContent = 'Страница прочитана! Листай дальше →';
+      }
+    });
+  });
+
+  // "Show all text" button
+  if (revealAllBtn) {
+    revealAllBtn.addEventListener('click', () => {
+      document.querySelectorAll('.prose-sentence').forEach((sentence) => {
+        sentence.classList.add('revealed');
+      });
+      revealAllBtn.style.opacity = '0.5';
+    });
+  }
+}
+
+function revealCurrentPageContent() {
+  // Whenever user turns to a page, auto-reveal its first 1-2 sentences smoothly
+  setTimeout(() => {
+    const activePages = document.querySelectorAll('.book-sheet:not(.flipped) .page-front, .book-sheet.flipped .page-back');
+    activePages.forEach(page => {
+      const sentences = page.querySelectorAll('.prose-sentence');
+      if (sentences.length > 0 && !sentences[0].classList.contains('revealed')) {
+        sentences[0].classList.add('revealed');
+        if (sentences.length > 1) {
+          setTimeout(() => sentences[1].classList.add('revealed'), 350);
+        }
+      }
+    });
+  }, 400);
+}
+
+/* ==========================================================================
+   5. BOOK SPARKLER WITH ACCURATE FRICTION IGNITION
+   ========================================================================== */
+function initBookSparkler() {
+  const canvas = document.getElementById('book-sparkler-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
-  const tipLabel = document.getElementById('sparkler-tip-label');
-  const wishCard = document.getElementById('wish-result-card');
-  const relightBtn = document.getElementById('sparkler-relight-btn');
+  const tipArrow = document.getElementById('sparkler-tip-arrow');
+  const wishBox = document.getElementById('book-wish-box');
+  const relightBtn = document.getElementById('book-relight-btn');
 
   let width, height;
   let isLit = false;
@@ -209,65 +334,56 @@ function initFrictionSparkler() {
     const rect = canvas.parentElement.getBoundingClientRect();
     width = canvas.width = rect.width;
     height = canvas.height = rect.height;
-    // Tip positioned at center top
-    sparklerTip = { x: width / 2, y: height * 0.36 };
+    sparklerTip = { x: width / 2, y: height * 0.35 };
   }
 
   window.addEventListener('resize', resize);
   resize();
 
-  function igniteSparkler() {
+  function ignite() {
     if (isLit) return;
     isLit = true;
 
-    if (tipLabel) tipLabel.style.opacity = '0';
+    if (tipArrow) tipArrow.style.opacity = '0';
 
-    // Show celebratory wish card
     setTimeout(() => {
-      if (wishCard) wishCard.classList.add('visible');
+      if (wishBox) wishBox.classList.add('visible');
       if (typeof confetti === 'function') {
         confetti({
           particleCount: 80,
-          spread: 75,
-          origin: { y: 0.7 },
+          spread: 70,
+          origin: { y: 0.65 },
           colors: ['#ffd700', '#ffffff', '#ffccd5', '#70d6ff']
         });
       }
-    }, 1200);
+    }, 1000);
   }
 
-  // ACCURATE FRICTION DETECTION:
-  // Requires dragging or rubbing near the tip (within 28px), NOT random clicks!
+  // ACCURATE FRICTION: Must rub/drag within 25px of the tip
   function checkFriction(x, y) {
     if (isLit) return;
+    const dist = Math.hypot(x - sparklerTip.x, y - sparklerTip.y);
 
-    const dx = x - sparklerTip.x;
-    const dy = y - sparklerTip.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-
-    // Only within exact tip radius (32px)
-    if (dist < 32) {
+    if (dist < 30) {
       if (lastFrictionPoint) {
         const moveDist = Math.hypot(x - lastFrictionPoint.x, y - lastFrictionPoint.y);
         if (moveDist > 3) {
           frictionCount++;
 
-          // Spawn tiny strike spark
+          // Strike spark
           particles.push({
-            x: sparklerTip.x + (Math.random() - 0.5) * 8,
-            y: sparklerTip.y + (Math.random() - 0.5) * 8,
+            x: sparklerTip.x + (Math.random() - 0.5) * 6,
+            y: sparklerTip.y + (Math.random() - 0.5) * 6,
             vx: (Math.random() - 0.5) * 4,
             vy: (Math.random() - 0.5) * 4,
             gravity: 0.1,
             alpha: 1,
             decay: 0.08,
-            length: 4,
             color: '#ffd166'
           });
 
-          // After 4-5 deliberate rubbing movements over the tip, it catches fire!
           if (frictionCount >= 4) {
-            igniteSparkler();
+            ignite();
           }
         }
       }
@@ -277,27 +393,25 @@ function initFrictionSparkler() {
     }
   }
 
-  function onPointerMove(e) {
+  canvas.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
-    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-    if (clientX && clientY) {
-      checkFriction(clientX - rect.left, clientY - rect.top);
+    checkFriction(e.clientX - rect.left, e.clientY - rect.top);
+  });
+
+  canvas.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      const rect = canvas.getBoundingClientRect();
+      checkFriction(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
     }
-  }
+  }, { passive: true });
 
-  canvas.addEventListener('mousemove', onPointerMove);
-  canvas.addEventListener('touchmove', onPointerMove, { passive: true });
-
-  // Direct click right on the exact tip (radius < 20px) also triggers
+  // Direct click right on tip also triggers
   canvas.addEventListener('click', (e) => {
     if (isLit) return;
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const dist = Math.hypot(x - sparklerTip.x, y - sparklerTip.y);
+    const dist = Math.hypot((e.clientX - rect.left) - sparklerTip.x, (e.clientY - rect.top) - sparklerTip.y);
     if (dist < 22) {
-      igniteSparkler();
+      ignite();
     }
   });
 
@@ -306,73 +420,71 @@ function initFrictionSparkler() {
       isLit = false;
       frictionCount = 0;
       lastFrictionPoint = null;
-      if (wishCard) wishCard.classList.remove('visible');
-      if (tipLabel) tipLabel.style.opacity = '1';
+      if (wishBox) wishBox.classList.remove('visible');
+      if (tipArrow) tipArrow.style.opacity = '1';
     });
   }
 
-  // Animation Loop
   function loop() {
     ctx.clearRect(0, 0, width, height);
 
-    // Sparkler Metal Wire
+    // Wire
     ctx.beginPath();
     ctx.moveTo(sparklerTip.x, sparklerTip.y);
-    ctx.lineTo(sparklerTip.x, height - 15);
+    ctx.lineTo(sparklerTip.x, height - 10);
     ctx.strokeStyle = '#8d99ae';
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 3.5;
     ctx.lineCap = 'round';
     ctx.stroke();
 
-    // Dark grey composition coating
+    // Coating
     ctx.beginPath();
     ctx.moveTo(sparklerTip.x, sparklerTip.y);
-    ctx.lineTo(sparklerTip.x, sparklerTip.y + 70);
+    ctx.lineTo(sparklerTip.x, sparklerTip.y + 60);
     ctx.strokeStyle = isLit ? '#333538' : '#5c636a';
-    ctx.lineWidth = 7.5;
+    ctx.lineWidth = 7;
     ctx.stroke();
 
     if (isLit) {
-      // Warm glowing halo
+      // Glow
       const glowGrad = ctx.createRadialGradient(
         sparklerTip.x, sparklerTip.y, 0,
-        sparklerTip.x, sparklerTip.y, 85 + Math.random() * 20
+        sparklerTip.x, sparklerTip.y, 75 + Math.random() * 15
       );
       glowGrad.addColorStop(0, 'rgba(255, 240, 190, 0.9)');
-      glowGrad.addColorStop(0.3, 'rgba(255, 190, 60, 0.4)');
-      glowGrad.addColorStop(0.7, 'rgba(255, 90, 30, 0.1)');
+      glowGrad.addColorStop(0.3, 'rgba(255, 180, 60, 0.4)');
       glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
       ctx.fillStyle = glowGrad;
       ctx.beginPath();
-      ctx.arc(sparklerTip.x, sparklerTip.y, 105, 0, Math.PI * 2);
+      ctx.arc(sparklerTip.x, sparklerTip.y, 90, 0, Math.PI * 2);
       ctx.fill();
 
-      // Incandescent core
+      // Core
       ctx.beginPath();
-      ctx.arc(sparklerTip.x, sparklerTip.y, 7 + Math.random() * 4, 0, Math.PI * 2);
+      ctx.arc(sparklerTip.x, sparklerTip.y, 6 + Math.random() * 3, 0, Math.PI * 2);
       ctx.fillStyle = '#ffffff';
       ctx.fill();
 
-      // Sizzling 360-degree golden sparks
-      for (let i = 0; i < 8; i++) {
+      // Sparks
+      for (let i = 0; i < 7; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 7 + 2.5;
+        const speed = Math.random() * 6 + 2.5;
         particles.push({
           x: sparklerTip.x,
           y: sparklerTip.y,
           vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 0.8,
-          gravity: 0.16,
+          vy: Math.sin(angle) * speed - 0.7,
+          gravity: 0.15,
           alpha: 1.0,
-          decay: Math.random() * 0.035 + 0.02,
+          decay: Math.random() * 0.035 + 0.025,
           color: ['#ffffff', '#fff2b2', '#ffd166', '#ff9f1c', '#ff4d6d'][Math.floor(Math.random() * 5)]
         });
       }
     } else {
-      // Gentle ready spark indicator on tip
+      // Idle spark point
       ctx.beginPath();
-      ctx.arc(sparklerTip.x, sparklerTip.y, 5 + Math.sin(Date.now() * 0.004) * 2, 0, Math.PI * 2);
+      ctx.arc(sparklerTip.x, sparklerTip.y, 4.5 + Math.sin(Date.now() * 0.005) * 1.5, 0, Math.PI * 2);
       ctx.fillStyle = '#ffd166';
       ctx.shadowColor = '#ffd166';
       ctx.shadowBlur = 8;
@@ -380,7 +492,7 @@ function initFrictionSparkler() {
       ctx.shadowBlur = 0;
     }
 
-    // Update & Render Sparks
+    // Render Particles
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
       p.x += p.vx;
@@ -395,9 +507,9 @@ function initFrictionSparkler() {
 
       ctx.beginPath();
       ctx.moveTo(p.x, p.y);
-      ctx.lineTo(p.x - p.vx * 0.7, p.y - p.vy * 0.7);
+      ctx.lineTo(p.x - p.vx * 0.65, p.y - p.vy * 0.65);
       ctx.strokeStyle = p.color;
-      ctx.lineWidth = Math.random() * 1.6 + 1;
+      ctx.lineWidth = Math.random() * 1.5 + 1;
       ctx.globalAlpha = p.alpha;
       ctx.stroke();
     }
